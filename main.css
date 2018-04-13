@@ -19,7 +19,13 @@ body {
 }
 
 #galaxy {
-	width: 50%;
-	height: 50%;
+	width: 80%;
+	height: 80%;
 	background-color: fuchsia;
+}
+
+#system {
+	width: 80%;
+	height: 80%;
+	background-color: green;
 }

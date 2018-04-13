@@ -17,3 +17,9 @@ body {
 	height: 100vh;
 	background-color: gray;
 }
+
+#galaxy {
+	width: 50%;
+	height: 50%;
+	background-color: fuchsia;
+}

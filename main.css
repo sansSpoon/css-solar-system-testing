@@ -29,3 +29,9 @@ body {
 	height: 80%;
 	background-color: green;
 }
+
+#star {
+	width: 40%;
+	height: 40%;
+	background-color: yellow;
+}

@@ -1,0 +1,53 @@
+#universe {
+	width: 100vw;
+	height: 100vh;
+	background-color: black;
+}
+
+#galaxy {
+	width: 80%;
+	height: 80%;
+	background-color: grey;
+}
+
+#system {
+	width: 80%;
+	height: 80%;
+	background-color: darkgray;
+}
+
+.hierarchy {
+	width: 80%;
+	height: 80%;
+	background-color: dimgray;
+}
+
+.star {
+	width: 40%;
+	height: 40%;
+	background-color: yellow;
+}
+
+.orbit {
+	width: 40%;
+	height: 40%;
+	border: 1px solid black;
+}
+
+.planet {
+	width: 40%;
+	height: 40%;
+	background-color: brown;
+}
+
+.orbit-moon {
+	width: 40%;
+	height: 40%;
+	border: 1px solid black;
+}
+
+.moon {
+	width: 40%;
+	height: 40%;
+	background-color: white;
+}

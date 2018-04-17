@@ -1,0 +1,21 @@
+// ! plains
+// ----------
+%plain {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+// ! orbits
+// ----------
+%orbit {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+// ! Bodies
+// ----------
+%body {
+	border-radius: 50%;
+}

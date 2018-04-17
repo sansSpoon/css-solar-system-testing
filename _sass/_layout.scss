@@ -51,6 +51,7 @@
 	height: 200px;
 	
 	@extend %orbit;
+	
 }
 
 .planet {
@@ -77,5 +78,4 @@
 	
 	@extend %body;
 	
-
 }

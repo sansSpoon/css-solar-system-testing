@@ -48,11 +48,24 @@
 	transform: rotateX(90deg);
 }
 
+#mars.orbit {
+	width: 400px;
+	height: 400px;
+}
+#mars.planet {
+	width: 30px;
+	height: 30px;
+}
+
+
+
 .orbit {
 	width: 200px;
 	height: 200px;
 	
 	@extend %orbit;
+	
+	position: absolute;
 	
 	transform-style: preserve-3d;
 	

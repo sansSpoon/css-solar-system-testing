@@ -1,0 +1,21 @@
+@keyframes orbit {
+	100% {
+		transform: rotateZ(360deg);
+	}
+}
+@keyframes orbit-rev {
+	0% {
+		transform: rotateX(90deg) rotateY(360deg) rotateZ(0deg);
+	}
+	100% {
+		transform: rotateX(90deg) rotateY(0deg) rotateZ(0deg);
+	}
+}
+@keyframes orbit-sat {
+	0% {
+		transform: rotateX(90deg) rotateZ(0deg) rotateZ(0deg);
+	}
+	100% {
+		transform: rotateX(90deg) rotateZ(360deg) rotateZ(0deg);
+	}
+}

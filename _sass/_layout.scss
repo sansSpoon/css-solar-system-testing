@@ -12,6 +12,8 @@
 	background-color: grey;
 	
 	@extend %plain;
+	
+	position: absolute;
 }
 
 #system {
@@ -20,6 +22,8 @@
 	background-color: darkgray;
 	
 	@extend %plain;
+	
+	position: absolute;
 }
 
 .hierarchy {
@@ -28,42 +32,50 @@
 	background-color: dimgray;
 	
 	@extend %plain;
+	
+	position: absolute;
 }
 
 .star {
-	width: 40%;
-	height: 40%;
+	width: 80px;
+	height: 80px;
 	background-color: yellow;
 	
 	@extend %body;
+	
+	position: absolute;
 }
 
 .orbit {
-	width: 40%;
-	height: 40%;
+	width: 200px;
+	height: 200px;
 	
 	@extend %orbit;
 }
 
 .planet {
-	width: 40%;
-	height: 40%;
+	width: 20px;
+	height: 20px;
 	background-color: brown;
 	
 	@extend %body;
 }
 
 .orbit-moon {
-	width: 40%;
-	height: 40%;
+	width: 50px;
+	height: 50px;
 
 	@extend %orbit;
+	
+	position: absolute;
 }
 
 .moon {
-	width: 40%;
-	height: 40%;
+	width: 5px;
+	height: 5px;
 	background-color: white;
 	
 	@extend %body;
+	
+	position: absolute;
 }

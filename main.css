@@ -9,31 +9,31 @@ html, body, div, span {
 }
 
 body {
-	background-color: blue;
+	background-color: black;
 }
 
 #universe {
 	width: 100vw;
 	height: 100vh;
-	background-color: gray;
+	background-color: black;
 }
 
 #galaxy {
 	width: 80%;
 	height: 80%;
-	background-color: fuchsia;
+	background-color: grey;
 }
 
 #system {
 	width: 80%;
 	height: 80%;
-	background-color: green;
+	background-color: darkgray;
 }
 
 .hierarchy {
 	width: 80%;
 	height: 80%;
-	background-color: green;
+	background-color: dimgray;
 }
 
 .star {
@@ -45,7 +45,7 @@ body {
 .orbit {
 	width: 40%;
 	height: 40%;
-	background-color: yellow;
+	border: 1px solid black;
 }
 
 .planet {
@@ -57,11 +57,11 @@ body {
 .orbit-moon {
 	width: 40%;
 	height: 40%;
-	background-color: yellow;
+	border: 1px solid black;
 }
 
 .moon {
 	width: 40%;
 	height: 40%;
-	background-color: yellow;
+	background-color: white;
 }

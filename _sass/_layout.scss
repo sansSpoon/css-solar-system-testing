@@ -48,17 +48,6 @@
 	transform: rotateX(90deg);
 }
 
-#mars.orbit {
-	width: 400px;
-	height: 400px;
-}
-#mars.planet {
-	width: 30px;
-	height: 30px;
-}
-
-
-
 .orbit {
 	width: 200px;
 	height: 200px;
@@ -110,4 +99,22 @@
 	animation: orbit-rev infinite linear;
 	animation-duration: 2s;
 	
+}
+
+#mars.orbit {
+	width: 400px;
+	height: 400px;
+}
+#mars .planet {
+	width: 10px;
+	height: 10px;
+}
+
+#saturn.orbit {
+	width: 800px;
+	height: 800px;
+}
+#saturn .planet {
+	width: 80px;
+	height: 80px;
 }

@@ -31,6 +31,9 @@
 	@extend %plain;
 	
 	position: absolute;
+	
+	transform: rotateX(75deg);
+	transform-style: preserve-3d;
 }
 
 .star {
@@ -41,6 +44,8 @@
 	@extend %body;
 	
 	position: absolute;
+	
+	transform: rotateX(90deg);
 }
 
 .orbit {
@@ -49,6 +54,10 @@
 	
 	@extend %orbit;
 	
+	transform-style: preserve-3d;
+	
+	animation: orbit infinite linear;
+	animation-duration: 10s;	
 }
 
 .planet {
@@ -57,6 +66,11 @@
 	background-color: brown;
 	
 	@extend %body;
+	
+	transform-style: preserve-3d;
+	
+	animation: orbit-rev infinite linear;
+	animation-duration: 10s;
 }
 
 .orbit-moon {
@@ -66,6 +80,11 @@
 	@extend %orbit;
 	
 	position: absolute;
+	
+	transform-style: preserve-3d;
+	
+	animation: orbit-sat infinite linear;
+	animation-duration: 2s;
 }
 
 .moon {
@@ -74,5 +93,8 @@
 	background-color: white;
 	
 	@extend %body;
+	
+	animation: orbit-rev infinite linear;
+	animation-duration: 2s;
 	
 }

@@ -1,0 +1,40 @@
+{
+  "name": "css-SolarSystem",
+  "version": "1.1.0",
+  "description": "A no-brainer sass-testing setup.",
+  "private": true,
+  "scripts": {
+    "sass-watch": "sass --watch _sass/:_css/",
+    "apf-watch": "postcss _css/*.css --use autoprefixer -d public/css/ --map --watch",
+    "start": "npm run sass-watch & npm run apf-watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sansSpoon/css-SolarSystem.git"
+  },
+  "keywords": [
+    "sass",
+    "testing",
+    "css",
+    "solar",
+    "system"
+  ],
+  "author": "sansSpoon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sansSpoon/css-SolarSystem/issues"
+  },
+  "homepage": "https://github.com/sansSpoon/css-SolarSystem#readme",
+  "browserslist": [
+    "Chrome >= 45",
+    "Firefox >= 27",
+    "not Edge < 2000",
+    "not IE < 2000",
+    "iOS >= 7",
+    "Safari >= 7"
+  ],
+  "devDependencies": {
+    "autoprefixer": "^7.1.6",
+    "postcss-cli": "^4.1.1"
+  }
+}

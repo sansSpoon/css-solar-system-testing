@@ -2,52 +2,68 @@
 	width: 100vw;
 	height: 100vh;
 	background-color: black;
+	
+	@extend %plain;
 }
 
 #galaxy {
 	width: 80%;
 	height: 80%;
 	background-color: grey;
+	
+	@extend %plain;
 }
 
 #system {
 	width: 80%;
 	height: 80%;
 	background-color: darkgray;
+	
+	@extend %plain;
 }
 
 .hierarchy {
 	width: 80%;
 	height: 80%;
 	background-color: dimgray;
+	
+	@extend %plain;
 }
 
 .star {
 	width: 40%;
 	height: 40%;
 	background-color: yellow;
+	
+	@extend %body;
 }
 
 .orbit {
 	width: 40%;
 	height: 40%;
-	border: 1px solid black;
+	
+	@extend %orbit;
 }
 
 .planet {
 	width: 40%;
 	height: 40%;
 	background-color: brown;
+	
+	@extend %body;
 }
 
 .orbit-moon {
 	width: 40%;
 	height: 40%;
-	border: 1px solid black;
+
+	@extend %orbit;
 }
 
 .moon {
 	width: 40%;
 	height: 40%;
 	background-color: white;
+	
+	@extend %body;
 }

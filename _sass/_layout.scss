@@ -136,3 +136,15 @@
 		
 	}
 }
+
+.view-2d .orbit,
+.view-2d .orbit-moon {
+	transform-style: flat;
+}
+.view-2d .hierarchy {
+	transform: rotateX(0deg);
+}
+
+.view-2D .planet {
+	transform: rotateZ(90deg);
+}

@@ -1,9 +1,14 @@
-@keyframes orbit {
+@keyframes orbit-cw {
 	100% {
 		transform: rotateZ(360deg);
 	}
 }
-@keyframes orbit-rev {
+@keyframes orbit-ccw {
+	100% {
+		transform: rotateZ(-360deg);
+	}
+}
+@keyframes rotation-cw {
 	0% {
 		transform: rotateX(90deg) rotateY(360deg) rotateZ(0deg);
 	}
@@ -11,12 +16,28 @@
 		transform: rotateX(90deg) rotateY(0deg) rotateZ(0deg);
 	}
 }
-@keyframes orbit-sat {
+@keyframes rotation-ccw {
 	0% {
-		transform: rotateX(90deg) rotateZ(0deg);
+		transform: rotateX(90deg) rotateY(-360deg) rotateZ(0deg);
 	}
 	100% {
+		transform: rotateX(90deg) rotateY(0deg) rotateZ(0deg);
+	}
+}
+@keyframes sat-cw {
+	0% {
 		transform: rotateX(90deg) rotateZ(360deg);
+	}
+	100% {
+		transform: rotateX(90deg) rotateZ(0deg);
+	}
+}
+@keyframes sat-ccw {
+	0% {
+		transform: rotateX(90deg) rotateZ(-360deg);
+	}
+	100% {
+		transform: rotateX(90deg) rotateZ(0deg);
 	}
 }
 
@@ -29,30 +50,30 @@
 		transform: rotateX(90deg);
 	}
 	.orbit {
-		animation: orbit infinite linear;
+		animation: orbit-ccw infinite linear;
 		animation-duration: 10s;
 	}
 	.planet {
-		animation: orbit-rev infinite linear;
+		animation: rotation-ccw infinite linear;
 		animation-duration: 10s;
 	}
 	.orbit-moon {
-		animation: orbit-sat infinite linear;
+		animation: sat-ccw infinite linear;
 		animation-duration: 2s;
 	}
 	.moon {
-		animation: orbit-rev infinite linear;
+		animation: rotation-cw infinite linear;
 		animation-duration: 2s;
 	}
 }
 
 .animate-2d {
 	.orbit {
-		animation: orbit infinite linear;
+		animation: orbit-ccw infinite linear;
 		animation-duration: 10s;
 	}
 	.orbit-moon {
-		animation: orbit infinite linear;
+		animation: orbit-ccw infinite linear;
 		animation-duration: 2s;
 	}
 }

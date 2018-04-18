@@ -26,12 +26,12 @@
   },
   "homepage": "https://github.com/sansSpoon/css-SolarSystem#readme",
   "browserslist": [
-    "Chrome >= 45",
-    "Firefox >= 27",
+    "Chrome >= 65",
+    "Firefox >= 59",
     "not Edge < 2000",
     "not IE < 2000",
-    "iOS >= 7",
-    "Safari >= 7"
+    "iOS >= 11",
+    "Safari >= 11"
   ],
   "devDependencies": {
     "autoprefixer": "^7.1.6",

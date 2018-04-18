@@ -27,10 +27,10 @@
 }
 
 .hierarchy {
-	
 	@extend %plain;
 	
 	position: absolute;
+
 }
 
 .star {
@@ -41,6 +41,7 @@
 	@extend %body;
 	
 	position: absolute;
+	
 }
 
 .orbit {
@@ -48,7 +49,7 @@
 	height: 200px;
 	
 	@extend %orbit;
-	
+
 }
 
 .planet {
@@ -64,8 +65,7 @@
 	height: 50px;
 
 	@extend %orbit;
-	
-	position: absolute;
+
 }
 
 .moon {

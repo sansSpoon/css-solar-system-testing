@@ -13,9 +13,46 @@
 }
 @keyframes orbit-sat {
 	0% {
-		transform: rotateX(90deg) rotateZ(0deg) rotateZ(0deg);
+		transform: rotateX(90deg) rotateZ(0deg);
 	}
 	100% {
-		transform: rotateX(90deg) rotateZ(360deg) rotateZ(0deg);
+		transform: rotateX(90deg) rotateZ(360deg);
+	}
+}
+
+.animate-3d {
+	.hierarchy {
+		transform: rotateX(75deg);
+		transform-style: preserve-3d;
+	}
+	.star {
+		transform: rotateX(90deg);
+	}
+	.orbit {
+		animation: orbit infinite linear;
+		animation-duration: 10s;
+	}
+	.planet {
+		animation: orbit-rev infinite linear;
+		animation-duration: 10s;
+	}
+	.orbit-moon {
+		animation: orbit-sat infinite linear;
+		animation-duration: 2s;
+	}
+	.moon {
+		animation: orbit-rev infinite linear;
+		animation-duration: 2s;
+	}
+}
+
+.animate-2d {
+	.orbit {
+		animation: orbit infinite linear;
+		animation-duration: 10s;
+	}
+	.orbit-moon {
+		animation: orbit infinite linear;
+		animation-duration: 2s;
 	}
 }

@@ -52,10 +52,12 @@
 	.orbit {
 		animation: orbit-ccw infinite linear;
 		animation-duration: 10s;
+		animation-fill-mode: both;
 	}
 	.planet {
 		animation: rotation-ccw infinite linear;
 		animation-duration: 10s;
+		animation-fill-mode: both;
 	}
 	.orbit .orbit {
 		animation: orbit-sat-ccw infinite linear;
@@ -64,6 +66,7 @@
 	.satellite {
 		animation: rotation-cw infinite linear;
 		animation-duration: 2s;
+		animation-fill-mode: both;
 	}
 }
 
@@ -71,9 +74,11 @@
 	.orbit {
 		animation: orbit-ccw infinite linear;
 		animation-duration: 10s;
+		animation-fill-mode: both;
 	}
 	.orbit .orbit {
 		animation: orbit-ccw infinite linear;
 		animation-duration: 2s;
+		animation-fill-mode: both;
 	}
 }

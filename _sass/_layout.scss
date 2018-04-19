@@ -24,6 +24,7 @@
 	@extend %plain;
 	
 	position: absolute;
+	transition: all 1s linear;
 }
 
 .hierarchy {
@@ -41,6 +42,7 @@
 	@extend %body;
 	
 	position: absolute;
+	transition: all 1s linear;
 	
 }
 
@@ -49,7 +51,8 @@
 	height: 60px;
 	
 	@extend %orbit;
-
+	
+	transition: all 1s linear;
 }
 
 .planet {
@@ -58,6 +61,8 @@
 	background-color: brown;
 	
 	@extend %body;
+	
+	transition: all 1s linear;
 }
 
 .satellite {
@@ -66,5 +71,7 @@
 	background-color: white;
 	
 	@extend %body;
+	
+	transition: all 1s linear;
 	
 }

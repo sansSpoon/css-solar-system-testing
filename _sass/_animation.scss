@@ -24,7 +24,7 @@
 		transform: rotateX(90deg) rotateY(0deg) rotateZ(0deg);
 	}
 }
-@keyframes sat-cw {
+@keyframes orbit-sat-cw {
 	0% {
 		transform: rotateX(90deg) rotateZ(360deg);
 	}
@@ -32,7 +32,7 @@
 		transform: rotateX(90deg) rotateZ(0deg);
 	}
 }
-@keyframes sat-ccw {
+@keyframes orbit-sat-ccw {
 	0% {
 		transform: rotateX(90deg) rotateZ(-360deg);
 	}
@@ -57,11 +57,11 @@
 		animation: rotation-ccw infinite linear;
 		animation-duration: 10s;
 	}
-	.orbit-moon {
-		animation: sat-ccw infinite linear;
+	.orbit .orbit {
+		animation: orbit-sat-ccw infinite linear;
 		animation-duration: 2s;
 	}
-	.moon {
+	.satellite {
 		animation: rotation-cw infinite linear;
 		animation-duration: 2s;
 	}
@@ -72,7 +72,7 @@
 		animation: orbit-ccw infinite linear;
 		animation-duration: 10s;
 	}
-	.orbit-moon {
+	.orbit .orbit {
 		animation: orbit-ccw infinite linear;
 		animation-duration: 2s;
 	}

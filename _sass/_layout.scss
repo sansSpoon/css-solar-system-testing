@@ -24,55 +24,54 @@
 	@extend %plain;
 	
 	position: absolute;
+	transition: all 1s linear;
 }
 
 .hierarchy {
-	
 	@extend %plain;
 	
 	position: absolute;
+
 }
 
 .star {
-	width: 80px;
-	height: 80px;
+	width: 20px;
+	height: 20px;
 	background-color: yellow;
 	
 	@extend %body;
 	
 	position: absolute;
+	transition: all 1s linear;
+	
 }
 
 .orbit {
-	width: 200px;
-	height: 200px;
+	width: 60px;
+	height: 60px;
 	
 	@extend %orbit;
 	
+	transition: all 1s linear;
 }
 
 .planet {
-	width: 20px;
-	height: 20px;
+	width: 10px;
+	height: 10px;
 	background-color: brown;
 	
 	@extend %body;
-}
-
-.orbit-moon {
-	width: 50px;
-	height: 50px;
-
-	@extend %orbit;
 	
-	position: absolute;
+	transition: all 1s linear;
 }
 
-.moon {
-	width: 5px;
-	height: 5px;
+.satellite {
+	width: 2px;
+	height: 2px;
 	background-color: white;
 	
 	@extend %body;
+	
+	transition: all 1s linear;
 	
 }

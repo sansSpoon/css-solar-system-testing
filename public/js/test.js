@@ -32,10 +32,6 @@ const data = [
 	}
 ]
 
-//const svg = d3.select("body").append("svg").attr("width",`${width}%`).attr("height",`${height}%`);
-
-const universe = d3.select('#universe');
-//var galaxy = d3.select('#galaxy');
 
 const system = d3.select('#galaxy').selectAll('div')
 	.data(data)
@@ -44,48 +40,26 @@ const system = d3.select('#galaxy').selectAll('div')
 const hierarchy = system.selectAll('.system')
 	.data(function(d) { console.log(d.hierarchies); return d.hierarchies })
 		.enter().append('div').classed("hierarchy", true)
+
 		
 const planets = hierarchy.selectAll('.hierarchy')
-	.data(function(d, i) { console.log(d); return d.planets })
+	.data(function(d, i) { return d.planets })
 		.enter().append('div').classed("planet", true)
+		.style('width', function(d, i) { return `${d.radiusKM / 100}px` })
+		.style('height', function(d, i) { return `${d.radiusKM / 100}px` })
+		.text(function(d, i) { return d.name })
+
+const sun = hierarchy.selectAll('.hierarchy')
+	.data(function(d, i) { console.log(d); return d })
+		.enter().append('div').classed("sun", true)
 
 
 
 
 
-
-/*
-galaxy.selectAll('div')
-	.data(data)
-		.enter().append('div').classed("system", true)
-	.selectAll('.hierarchy')
-	.data(function(d) { console.log(d); return d.hierarchies })
-		.enter().append('div').classed("hierarchy", true)
-*/
-	
-
-
-/*
-system.selectAll('div')
-	.data(data)
-		.enter().append('div').classed("hierarchy", true)
-
-let star = system.selectAll('.hierarchy')
-	.data(function(d) { console.log(d); return d.hierarchies.star })
-		.enter().append('div').classed({"star": true})
-*/
-
-
-
-/*
-svg.selectAll("rect")
-	.data(data)
-	.enter().append("rect")
-	
-	// chain on attributes and classes as needed, looping over the data
-	.attr("height",function(d,i){ return d; })
-	.attr("width","50")
-	.attr("x",function(d,i){ return i * 10; })
-	.attr("y",function(d,i){ return height-(d * 10); })
-	.attr("fill", "blue");
-*/
+//const sun = system.selectAll('.hierarchy')
+//	.data(function(d, i) { console.log(d.hierarchies); return d.hierarchies })
+//		.enter().append('div').classed("sun", true)
+//		.style('width', function(d, i) { return `${d.aphelionAU * 100}px` })
+//		.style('height', function(d, i) { return `${d.aphelionAU * 100}px` })
+//		.text(function(d, i) { return d.name })

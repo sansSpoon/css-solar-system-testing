@@ -1,7 +1,9 @@
 const data = [
 	{
+		"name": "Solar",
 		"hierarchies": [
 			{
+				"name": "Alpha",
 				"planets": [
 					{
 						"name": "Mercury",
@@ -19,29 +21,63 @@ const data = [
 						"perihelionAU": "0.718440",
 						"orbitVelocityKMS": "35.02"
 					},
-							 ],
-				"name": "Alpha",
+				],
 				"star": {
 					"name":"sol",
 					"radiusKM": "9000",
-					"rotationVelocityKMH": "700",
-				},
-				"_id": "5b0d458a12e7573e65dcaa6f"
+					"rotationVelocityKMH": "700"
+				}
 			}
-		],
-		"_id": "5b0d454c12e7573e65dcaa6d",
-		"name": "Solar",
-		"__v": 1
+		]
 	}
 ]
 
-const svg = d3.select("body").append("svg").attr("width",`${width}%`).attr("height",`${height}%`);
+//const svg = d3.select("body").append("svg").attr("width",`${width}%`).attr("height",`${height}%`);
 
-const universe = d3.select("#universe");
-const galaxy = d3.select("#galaxy");
-const system = d3.select("#system");
-const hierarchy
+const universe = d3.select('#universe');
+//var galaxy = d3.select('#galaxy');
 
+const system = d3.select('#galaxy').selectAll('div')
+	.data(data)
+		.enter().append('div').classed("system", true)
+		
+const hierarchy = system.selectAll('.system')
+	.data(function(d) { console.log(d.hierarchies); return d.hierarchies })
+		.enter().append('div').classed("hierarchy", true)
+		
+const planets = hierarchy.selectAll('.hierarchy')
+	.data(function(d, i) { console.log(d); return d.planets })
+		.enter().append('div').classed("planet", true)
+
+
+
+
+
+
+/*
+galaxy.selectAll('div')
+	.data(data)
+		.enter().append('div').classed("system", true)
+	.selectAll('.hierarchy')
+	.data(function(d) { console.log(d); return d.hierarchies })
+		.enter().append('div').classed("hierarchy", true)
+*/
+	
+
+
+/*
+system.selectAll('div')
+	.data(data)
+		.enter().append('div').classed("hierarchy", true)
+
+let star = system.selectAll('.hierarchy')
+	.data(function(d) { console.log(d); return d.hierarchies.star })
+		.enter().append('div').classed({"star": true})
+*/
+
+
+
+/*
 svg.selectAll("rect")
 	.data(data)
 	.enter().append("rect")
@@ -52,3 +88,4 @@ svg.selectAll("rect")
 	.attr("x",function(d,i){ return i * 10; })
 	.attr("y",function(d,i){ return height-(d * 10); })
 	.attr("fill", "blue");
+*/

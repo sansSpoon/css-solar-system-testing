@@ -77,22 +77,3 @@ const grandChildren = children.selectAll('.child-body')
 	.data(function(d, i) { console.log(d); return d.grandChildren })
 		.enter().append('div').classed("grand-child-container", true).append('div').classed("grand-child-body", true)
 		.text(function(d, i) { return d.name })
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-

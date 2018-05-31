@@ -7,6 +7,8 @@ const data = [
 				"children": [
 					{
 						"name": "A1",
+						"r": 50,
+						"0": 150,
 						"grandChildren": [
 							{
 								"name": "A1-a"
@@ -15,11 +17,14 @@ const data = [
 					},
 					{
 						"name": "A2",
+						"r": 40,
+						"o": 50,
 						"grandChildren": []
 					}
 				],
 				"property": {
 					"name":"Sub-Alpha"
+					"r": 200
 				}
 			},
 			{
@@ -27,10 +32,14 @@ const data = [
 				"children": [
 					{
 						"name": "B1",
+						"r": 80,
+						"o": 250,
 						"grandChildren": []
 					},
 					{
 						"name": "B2",
+						"r": 30,
+						"r": 300,
 						"grandChildren": []
 					}
 				],
@@ -68,11 +77,6 @@ const grandChildren = children.selectAll('.child-body')
 	.data(function(d, i) { console.log(d); return d.grandChildren })
 		.enter().append('div').classed("grand-child-container", true).append('div').classed("grand-child-body", true)
 		.text(function(d, i) { return d.name })
-
-		
-		
-		
-		
 		
 		
 		

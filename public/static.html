@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Orbits</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="js/d3.min.js"></script>
+<link rel="stylesheet" href="css/main.css">
+<style type="text/css">
+</style>
+
+</head>
+
+<body>
+	<button type="button" id="toggle-2d">toggle 2d</button>
+	<button type="button" id="toggle-3d">toggle 3d</button>
+	<div id="universe">
+		<div id="galaxy">
+			<div id="system">
+				<div class="hierarchy">
+					<div id="sun" class="star"></div>
+					
+					<div id="earth" class="orbit">
+						<div class="planet">
+							<div id="moon" class="orbit">
+								<div class="satellite"></div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="js/static.js"></script>
+</body>
+</html>

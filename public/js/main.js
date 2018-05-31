@@ -11,7 +11,7 @@ toggle3d.onclick = () => {
 }
 
 
-var module = function(){
+const d3System = function(){
 
 	// Create the return module and its configuration
 	const module = {},
@@ -77,5 +77,5 @@ var module = function(){
 
 // When the DOM is ready, run the module
 document.addEventListener("DOMContentLoaded", function() {
-	module.init();
+	d3System.init();
 });

@@ -100,14 +100,26 @@ const d3System = function(){
 				})
 				//.text(function(d, i) { return d.name })
 
-
 	// ! Private methods	
-	function _orbit(body) {
-		if(body.hasOwnProperty('aphelionAU')) {
-			return `${(body.aphelionAU + body.perihelionAU / 2)*100}px`;
+	function _orbit(d) {
+		let unit = 'px';
+		
+		if(d.hasOwnProperty('aphelionAU')) {
+			let calc = Math.round((d.aphelionAU + d.perihelionAU / 2)*100);
+			return `${calc}${unit}`;
 		} else {
-			return `${(body.apoapsisAU + body.periapsisAU / 2)*100}px`;
+			let calc = Math.round((d.apoapsisAU + d.periapsisAU / 2)*5000);
+			return `${calc}${unit}`;
 		}
+	}
+	
+	function _mass(d) {
+		let unit = 'px';
+		return {
+			'width': function(d, i) { return (`${d.radiusKM/1000}${unit}`); },
+			'height': function(d, i) { return (`${d.radiusKM/1000}${unit}`); },
+			'margin-right': function(d, i) { return (`${-(d.radiusKM/1000)/2}${unit}`); },
+		};
 	}
 
 	// ! Add functionality to the module's init()-ialising method

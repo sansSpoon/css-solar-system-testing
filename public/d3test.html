@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Orbits</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="js/d3.min.js"></script>
+<script src="js/d3-selection-multi.min.js"></script>
+<link rel="stylesheet" href="css/main.css">
+<style type="text/css">
+</style>
+
+</head>
+
+<body>
+	<script>
+const data = [
+	{
+		"name": "A1",
+		"r": 10,
+		"o": 100
+	},
+	{
+		"name": "B1",
+		"r": 20,
+		"o": 200
+	}
+]
+
+function _mass(body, ...styles) {
+	let unit = 'px';
+	let calc = (body.radiusKM/1000);
+	return calc;
+}
+
+function _bar(d) {
+	let unit = 'px';
+	return {
+		'background-color': "red",
+		'width': `${d.o}px`,
+	};
+}
+
+function _foo(d) {
+	let unit = 'px';
+	return {
+		'width': function(d, i) { return (`${d.o/1000}${unit}`); },
+		'height': function(d, i) { return (`${d.o/1000}${unit}`); },
+		'margin-right': function(d, i) { return (`${-(d.o/1000)/2}${unit}`); },
+	};
+}
+
+const system = d3.select('body').selectAll('div')
+	.data(data)
+		.enter().append('div').classed("system", true)
+		.styles(function(d) { return _foo(d); })
+
+	</script>
+</body>
+</html>
+
+
+<!-- 
+	.styles({
+		'width': function(d, i) { return (`${d.radiusKM/1000}px`); },
+		'height': function(d, i) { return (`${d.radiusKM/1000}px`); },
+		'margin-right': function(d, i) { return (`${-(d.radiusKM/1000)/2}px`); },
+	})
+	 -->
+	 
+<!-- 	 
+	
+	function _mass(body) {
+		let unit = 'px';
+		let calc = (body.radiusKM/1000);
+		return calc;
+	}
+	
+	 -->

@@ -44,34 +44,75 @@ const d3System = function(){
 	// ! Star
 	const star = hierarchy.selectAll('.star')
 		.data(function(d) { return [d.star] }).enter()
-			.append('div').attr('class','star')
-			.attr('id', function(d, i) { return d.name.replace(' ','-').toLowerCase(); })
-			.styles({
-				'width':function(d, i) { return (`${d.radiusKM/1000}px`); },
-				'height':function(d, i) { return (`${d.radiusKM/1000}px`); },
-			})
+			.append('div')
+				.attrs({
+					'class': 'star',
+					'id': function(d, i) { return d.name.replace(' ','-').toLowerCase(); },
+				})
+				.styles({
+					'width':function(d, i) { return (`${d.radiusKM/1000}px`); },
+					'height':function(d, i) { return (`${d.radiusKM/1000}px`); },
+				})
 	
 	// ! Planets
 	const planets = hierarchy.selectAll('.hierarchy')
 		.data(function(d, i) { return d.planets }).enter()
-			.append('div').classed("orbit", true)
-			.append('div').classed("planet", true)
-			.text(function(d, i) { return d.name })
+			.append('div')
+				.attrs({
+					'class': 'orbit',
+					'id': function(d, i) { return d.name.replace(' ','-').toLowerCase(); },
+				})
+				.styles({
+					'width':function(d, i) { return _orbit(d); },
+					'height':function(d, i) { return _orbit(d); },
+				})
+			.append('div')
+				.attrs({
+					'class': 'planet',
+				})
+				.styles({
+					'width': function(d, i) { return (`${d.radiusKM/1000}px`); },
+					'height': function(d, i) { return (`${d.radiusKM/1000}px`); },
+					'margin-right': function(d, i) { return (`${-(d.radiusKM/1000)/2}px`); },
+				})
+				//.text(function(d, i) { return d.name })
 	
-	// ! Moons
+	// ! Satellites
 	const satellites = planets.selectAll('.planet')
-		.data(function(d, i) { return d.satellites })
-			.enter().append('div').classed("orbit", true).append('div').classed("satellite", true)
-			.text(function(d, i) { return d.name })
+		.data(function(d, i) { return d.satellites }).enter()
+			.append('div')
+				.attrs({
+					'class': 'orbit',
+					'id': function(d, i) { return d.name.replace(' ','-').toLowerCase(); },
+				})
+				.styles({
+					'width':function(d, i) { return _orbit(d); },
+					'height':function(d, i) { return _orbit(d); },
+				})
+			.append('div')
+				.attrs({
+					'class': 'satellite',
+				})
+				.styles({
+					'width': function(d, i) { return (`${d.radiusKM/1000}px`); },
+					'height': function(d, i) { return (`${d.radiusKM/1000}px`); },
+					'margin-right': function(d, i) { return (`${-(d.radiusKM/1000)/2}px`); },
+				})
+				//.text(function(d, i) { return d.name })
 
-	// ! Private methods
-	function _moduleMethod() {
-		console.log(config.userName);
+
+	// ! Private methods	
+	function _orbit(body) {
+		if(body.hasOwnProperty('aphelionAU')) {
+			return `${(body.aphelionAU + body.perihelionAU / 2)*100}px`;
+		} else {
+			return `${(body.apoapsisAU + body.periapsisAU / 2)*100}px`;
+		}
 	}
 
 	// ! Add functionality to the module's init()-ialising method
 	function init() {
-		_moduleMethod();
+		//_moduleMethod();
 	}
 
 	// ! Add init, and any other methods, to obj

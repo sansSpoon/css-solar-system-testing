@@ -34,11 +34,11 @@ const d3System = function(){
 	const system = d3.select('#galaxy').selectAll('div')
 	.data(data).enter()
 		.append('div').attr('class', 'system')
-		.attr('id', function(d, i) { return d.name.replace(' ','-').toLowerCase(); })
+		.attr('id', function(d) { return d.name.replace(' ','-').toLowerCase(); })
 
 	// ! Hierarchy
 	const hierarchy = system.selectAll('.system')
-		.data(function(d, i) { return d.hierarchies }).enter()
+		.data(function(d) { return d.hierarchies }).enter()
 			.append('div').attr('class','hierarchy')
 	
 	// ! Star
@@ -47,20 +47,17 @@ const d3System = function(){
 			.append('div')
 				.attrs({
 					'class': 'star',
-					'id': function(d, i) { return d.name.replace(' ','-').toLowerCase(); },
+					'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
 				})
-				.styles({
-					'width':function(d, i) { return (`${d.radiusKM/1000}px`); },
-					'height':function(d, i) { return (`${d.radiusKM/1000}px`); },
-				})
+				.styles(function(d) { return _mass(d); })
 	
 	// ! Planets
 	const planets = hierarchy.selectAll('.hierarchy')
-		.data(function(d, i) { return d.planets }).enter()
+		.data(function(d) { return d.planets }).enter()
 			.append('div')
 				.attrs({
 					'class': 'orbit',
-					'id': function(d, i) { return d.name.replace(' ','-').toLowerCase(); },
+					'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
 				})
 				.styles(function(d) { return _orbit(d); })
 			.append('div')
@@ -70,11 +67,11 @@ const d3System = function(){
 	
 	// ! Satellites
 	const satellites = planets.selectAll('.planet')
-		.data(function(d, i) { return d.satellites }).enter()
+		.data(function(d) { return d.satellites }).enter()
 			.append('div')
 				.attrs({
 					'class': 'orbit',
-					'id': function(d, i) { return d.name.replace(' ','-').toLowerCase(); },
+					'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
 				})
 				.styles(function(d) { return _orbit(d); })
 			.append('div')
@@ -84,7 +81,7 @@ const d3System = function(){
 
 
 
-	// ! Private methods	
+	// ! Private methods
 	function _orbit(d) {
 		let unit = 'px';
 		
@@ -105,11 +102,17 @@ const d3System = function(){
 	
 	function _mass(d) {
 		let unit = 'px';
-		return {
-			'width': function(d, i) { return (`${Math.round(d.radiusKM/1000)}${unit}`); },
-			'height': function(d, i) { return (`${Math.round(d.radiusKM/1000)}${unit}`); },
-			'margin-right': function(d, i) { return (`${-Math.round((d.radiusKM/1000)/2)}${unit}`); },
+		
+		let mass = {
+			'width': function(d) { return (`${Math.round(d.radiusKM/1000)}${unit}`); },
+			'height': function(d) { return (`${Math.round(d.radiusKM/1000)}${unit}`); },
 		};
+		
+		if(d.hasOwnProperty('orbitVelocityKMS')) {
+			mass['margin-right'] = function(d) { return (`${-Math.round((d.radiusKM/1000)/2)}${unit}`); };
+		};
+		
+		return mass;
 	}
 
 	// ! Add functionality to the module's init()-ialising method
@@ -126,6 +129,8 @@ const d3System = function(){
 }();
 
 // When the DOM is ready, run the module
+/*
 document.addEventListener("DOMContentLoaded", function() {
 	d3System.init();
 });
+*/

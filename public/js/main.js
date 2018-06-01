@@ -62,19 +62,12 @@ const d3System = function(){
 					'class': 'orbit',
 					'id': function(d, i) { return d.name.replace(' ','-').toLowerCase(); },
 				})
-				.styles({
-					'width':function(d, i) { return _orbit(d); },
-					'height':function(d, i) { return _orbit(d); },
-				})
+				.styles(function(d) { return _orbit(d); })
 			.append('div')
 				.attrs({
 					'class': 'planet',
 				})
-				.styles({
-					'width': function(d, i) { return (`${d.radiusKM/1000}px`); },
-					'height': function(d, i) { return (`${d.radiusKM/1000}px`); },
-					'margin-right': function(d, i) { return (`${-(d.radiusKM/1000)/2}px`); },
-				})
+				.styles(function(d) { return _mass(d); })
 				//.text(function(d, i) { return d.name })
 	
 	// ! Satellites
@@ -85,19 +78,12 @@ const d3System = function(){
 					'class': 'orbit',
 					'id': function(d, i) { return d.name.replace(' ','-').toLowerCase(); },
 				})
-				.styles({
-					'width':function(d, i) { return _orbit(d); },
-					'height':function(d, i) { return _orbit(d); },
-				})
+				.styles(function(d) { return _orbit(d); })
 			.append('div')
 				.attrs({
 					'class': 'satellite',
 				})
-				.styles({
-					'width': function(d, i) { return (`${d.radiusKM/1000}px`); },
-					'height': function(d, i) { return (`${d.radiusKM/1000}px`); },
-					'margin-right': function(d, i) { return (`${-(d.radiusKM/1000)/2}px`); },
-				})
+				.styles(function(d) { return _mass(d); })
 				//.text(function(d, i) { return d.name })
 
 	// ! Private methods	
@@ -106,19 +92,25 @@ const d3System = function(){
 		
 		if(d.hasOwnProperty('aphelionAU')) {
 			let calc = Math.round((d.aphelionAU + d.perihelionAU / 2)*100);
-			return `${calc}${unit}`;
+			return {
+				'width': `${calc}${unit}`,
+				'height': `${calc}${unit}`,
+			};
 		} else {
 			let calc = Math.round((d.apoapsisAU + d.periapsisAU / 2)*5000);
-			return `${calc}${unit}`;
+			return {
+				'width': `${calc}${unit}`,
+				'height': `${calc}${unit}`,
+			};
 		}
 	}
 	
 	function _mass(d) {
 		let unit = 'px';
 		return {
-			'width': function(d, i) { return (`${d.radiusKM/1000}${unit}`); },
-			'height': function(d, i) { return (`${d.radiusKM/1000}${unit}`); },
-			'margin-right': function(d, i) { return (`${-(d.radiusKM/1000)/2}${unit}`); },
+			'width': function(d, i) { return (`${Math.round(d.radiusKM/1000)}${unit}`); },
+			'height': function(d, i) { return (`${Math.round(d.radiusKM/1000)}${unit}`); },
+			'margin-right': function(d, i) { return (`${-Math.round((d.radiusKM/1000)/2)}${unit}`); },
 		};
 	}
 

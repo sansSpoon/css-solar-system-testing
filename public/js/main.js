@@ -64,9 +64,7 @@ const d3System = function(){
 				})
 				.styles(function(d) { return _orbit(d); })
 			.append('div')
-				.attrs({
-					'class': 'planet',
-				})
+				.attrs({'class': 'planet'})
 				.styles(function(d) { return _mass(d); })
 				//.text(function(d, i) { return d.name })
 	
@@ -80,11 +78,11 @@ const d3System = function(){
 				})
 				.styles(function(d) { return _orbit(d); })
 			.append('div')
-				.attrs({
-					'class': 'satellite',
-				})
+				.attrs({'class': 'satellite'})
 				.styles(function(d) { return _mass(d); })
 				//.text(function(d, i) { return d.name })
+
+
 
 	// ! Private methods	
 	function _orbit(d) {

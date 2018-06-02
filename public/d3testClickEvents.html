@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Orbits</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="js/d3.min.js"></script>
+<script src="js/d3-selection-multi.min.js"></script>
+<link rel="stylesheet" href="css/main.css">
+<style type="text/css">
+</style>
+
+</head>
+
+<body>
+	<button type="button" id="toggle-2d">toggle 2d</button>
+	<button type="button" id="toggle-3d">toggle 3d</button>
+	<script>
+const data = [
+	{
+		"name": "A1",
+		"r": 10,
+		"o": 100
+	},
+	{
+		"name": "B1",
+		"r": 20,
+		"o": 200
+	}
+]
+
+function _mass(body, ...styles) {
+	let unit = 'px';
+	let calc = (body.radiusKM/1000);
+	return calc;
+}
+
+function _bar(d) {
+	let unit = 'px';
+	return {
+		'background-color': "red",
+		'width': `${d.o}px`,
+	};
+}
+
+function _foo(d) {
+	let unit = 'px';
+	return {
+		'width': function(d, i) { return (`${d.o/1000}${unit}`); },
+		'height': function(d, i) { return (`${d.o/1000}${unit}`); },
+		'margin-right': function(d, i) { return (`${-(d.o/1000)/2}${unit}`); },
+	};
+}
+
+const system = d3.select('body').selectAll('div')
+	.data(data)
+		.enter().append('div').classed("system", true)
+		.styles(function(d) { return _foo(d); })
+		
+		
+const toggle2d = document.getElementById('toggle-2d');
+const toggle3d = document.getElementById('toggle-3d');
+//const system = document.getElementById('solar-system');
+
+console.log(system, toggle2d);
+
+toggle2d.onclick = () => {
+	console.log('clicked 2d');
+	//system.classList.toggle('animate-2d');
+}
+toggle3d.onclick = () => {
+	console.log('clicked 3d');
+	//system.classList.toggle('animate-3d');
+}
+
+	</script>
+</body>
+</html>

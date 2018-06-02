@@ -23,7 +23,7 @@ const data = [
 					}
 				],
 				"property": {
-					"name":"Sub-Alpha"
+					"name":"Sub-Alpha",
 					"r": 200
 				}
 			},

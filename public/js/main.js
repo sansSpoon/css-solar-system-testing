@@ -19,7 +19,7 @@ const d3System = function(){
 	const hierarchy = system.selectAll('.system')
 		.data(function(d) { return d.hierarchies }).enter()
 			.append('div').attr('class','hierarchy')
-	
+
 	// ! Star
 	const star = hierarchy.selectAll('.star')
 		.data(function(d) { return [d.star] }).enter()
@@ -29,7 +29,7 @@ const d3System = function(){
 					'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
 				})
 				.styles(function(d) { return _mass(d); })
-	
+
 	// ! Planets
 	const planets = hierarchy.selectAll('.hierarchy')
 		.data(function(d) { return d.planets }).enter()
@@ -58,44 +58,41 @@ const d3System = function(){
 				.styles(function(d) { return _mass(d); })
 				//.text(function(d, i) { return d.name })
 
-
-
 	// ! Private methods
 	function _orbit(d) {
 		let unit = 'px';
+		let AU = 149597870.7;
+		let scale = 100000;
+		const a = d.hasOwnProperty('aphelionAU') ? d.aphelionAU : d.apoapsisAU;
+		const p = d.hasOwnProperty('perihelionAU') ? d.perihelionAU : d.periapsisAU;
 		
-		if(d.hasOwnProperty('aphelionAU')) {
-			let calc = Math.round((d.aphelionAU + d.perihelionAU / 2)*100);
-			return {
-				'width': `${calc}${unit}`,
-				'height': `${calc}${unit}`,
-			};
-		} else {
-			let calc = Math.round((d.apoapsisAU + d.periapsisAU / 2)*5000);
-			return {
-				'width': `${calc}${unit}`,
-				'height': `${calc}${unit}`,
-			};
-		}
+		let calc = Math.round(((a + p / 2) * AU) / scale);
+		
+		return {
+			'width': `${calc}${unit}`,
+			'height': `${calc}${unit}`,
+		};
 	}
+
 	
 	function _mass(d) {
 		let unit = 'px';
+		let scale = 100;
+		let calc = Math.round((d.radiusKM * 2) / scale);
 		
 		let mass = {
-			'width': function(d) { return (`${Math.round(d.radiusKM/1000)}${unit}`); },
-			'height': function(d) { return (`${Math.round(d.radiusKM/1000)}${unit}`); },
+			'width': function(d) { return (`${calc}${unit}`); },
+			'height': function(d) { return (`${calc}${unit}`); },
 		};
 		
 		if(d.hasOwnProperty('orbitVelocityKMS')) {
-			mass['margin-right'] = function(d) { return (`${-Math.round((d.radiusKM/1000)/2)}${unit}`); };
+			mass['margin-right'] = function(d) { return (`${-Math.round(calc/2)}${unit}`); };
 		};
 		
 		return mass;
 	}
 	
-	
-	// ! Private handlers
+	// ! Private Events
 	config.ids.toggle2d.onclick = () => {
 		system.classed('animate-2d', function() { return !d3.select(this).classed('animate-2d') });
 	}

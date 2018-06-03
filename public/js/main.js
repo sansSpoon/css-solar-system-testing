@@ -38,7 +38,10 @@ const d3System = function(){
 					'class': 'orbit',
 					'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
 				})
-				.styles(function(d) { return _orbit(d); })
+				.styles(function(d) {
+					const parent = d3.select(this.parentNode).datum();
+					return _orbit(d, parent);
+				})
 			.append('div')
 				.attrs({'class': 'planet'})
 				.styles(function(d) { return _mass(d, type = 'planet'); })
@@ -52,21 +55,29 @@ const d3System = function(){
 					'class': 'orbit',
 					'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
 				})
-				.styles(function(d) { return _orbit(d); })
+				.styles(function(d) {
+					const parent = d3.select(this.parentNode).datum();
+					return _orbit(d, parent);
+				})
 			.append('div')
 				.attrs({'class': 'satellite'})
 				.styles(function(d) { return _mass(d, type = 'satellite'); })
 				//.text(function(d, i) { return d.name })
 
 	// ! Private methods
-	function _orbit(d) {
+	function _orbit(d, parent) {
 		let unit = 'px';
 		let AU = 1495; //149597870.7
 		let scale = 100;
+		
+		console.log(parent);
+		
+		const star = parent.hasOwnProperty('star') ? parent.star.radiusKM / 10000 : 1
+		
 		const a = d.hasOwnProperty('aphelionAU') ? d.aphelionAU : d.apoapsisAU;
 		const p = d.hasOwnProperty('perihelionAU') ? d.perihelionAU : d.periapsisAU;
 		
-		let calc = Math.round(((a + p / 2) * AU) / scale);
+		let calc = Math.round((((a + p / 2) * AU) / scale) + star);
 		
 		return {
 			'width': `${calc}${unit}`,

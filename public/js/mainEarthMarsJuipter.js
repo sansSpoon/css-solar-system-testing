@@ -29,7 +29,7 @@ const d3System = function(){
 					'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
 					'data-type': 'star',
 				})
-				.styles(function(d) { return _mass(d); })
+				.styles(function(d) { return _mass(d, type = 'star'); })
 
 	// ! Planets
 	const planets = hierarchy.selectAll('.hierarchy')
@@ -46,7 +46,7 @@ const d3System = function(){
 					'class': 'planet',
 					'data-type': 'planet',
 				})
-				.styles(function(d) { return _mass(d); })
+				.styles(function(d) { return _mass(d, type = 'planet'); })
 				//.text(function(d, i) { return d.name })
 	
 	// ! Satellites
@@ -64,7 +64,7 @@ const d3System = function(){
 					'class': 'satellite',
 					'data-type': 'satellite',	
 					})
-				.styles(function(d) { return _mass(d); })
+				.styles(function(d) { return _mass(d, type = 'satellite'); })
 				//.text(function(d, i) { return d.name })
 
 	// ! Private methods
@@ -88,6 +88,8 @@ const d3System = function(){
 		let unit = 'px';
 		let scale = 1000;
 		let calc = Math.round((d.radiusKM * 2) / scale);
+		
+		console.log(d, type);
 		
 		let mass = {
 			'width': function(d) { return (`${calc}${unit}`); },

@@ -28,7 +28,7 @@ const d3System = function(){
 					'class': 'star',
 					'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
 				})
-				.styles(function(d) { return _mass(d); })
+				.styles(function(d) { return _mass(d, type = 'star'); })
 
 	// ! Planets
 	const planets = hierarchy.selectAll('.hierarchy')
@@ -41,7 +41,7 @@ const d3System = function(){
 				.styles(function(d) { return _orbit(d); })
 			.append('div')
 				.attrs({'class': 'planet'})
-				.styles(function(d) { return _mass(d); })
+				.styles(function(d) { return _mass(d, type = 'planet'); })
 				//.text(function(d, i) { return d.name })
 	
 	// ! Satellites
@@ -55,14 +55,14 @@ const d3System = function(){
 				.styles(function(d) { return _orbit(d); })
 			.append('div')
 				.attrs({'class': 'satellite'})
-				.styles(function(d) { return _mass(d); })
+				.styles(function(d) { return _mass(d, type = 'satellite'); })
 				//.text(function(d, i) { return d.name })
 
 	// ! Private methods
 	function _orbit(d) {
 		let unit = 'px';
-		let AU = 149597870.7;
-		let scale = 100000;
+		let AU = 1495; //149597870.7
+		let scale = 100;
 		const a = d.hasOwnProperty('aphelionAU') ? d.aphelionAU : d.apoapsisAU;
 		const p = d.hasOwnProperty('perihelionAU') ? d.perihelionAU : d.periapsisAU;
 		
@@ -75,10 +75,12 @@ const d3System = function(){
 	}
 
 	
-	function _mass(d) {
+	function _mass(d, type) {
 		let unit = 'px';
-		let scale = 100;
-		let calc = Math.round((d.radiusKM * 2) / scale);
+		let scale = type === 'star' ? 10000 : 1000;
+		let calc = Math.round((d.radiusKM) / scale);
+		
+		console.log(type);
 		
 		let mass = {
 			'width': function(d) { return (`${calc}${unit}`); },

@@ -12,18 +12,20 @@ const d3System = function(){
 				data = [{"hierarchies":[{"planets":[{"satellites":[],"_id":"5b0f8c4315315be81de5fcff","name":"Mercury","radiusKM":2439.7,"rotationVelocityKMH":10.892,"aphelionAU":0.466697,"perihelionAU":0.307499,"orbitVelocityKMS":47.362,"__v":0},{"satellites":[],"_id":"5b0f8c4315315be81de5fd00","name":"Venus","radiusKM":6051.8,"rotationVelocityKMH":6.52,"aphelionAU":0.728213,"perihelionAU":0.71844,"orbitVelocityKMS":35.02,"__v":0},{"satellites":[{"name":"Moon","radiusKM":1738.1,"rotationVelocityKMH":16.6572,"apoapsisAU":0.00270993162,"periapsisAU":0.00242383129,"orbitVelocityKMS":1.022,"_id":"5b0f8e02da4a86e83cbf6276"}],"_id":"5b0f8c4315315be81de5fd01","name":"Earth","radiusKM":6371,"rotationVelocityKMH":1674.4,"aphelionAU":1.017,"perihelionAU":0.98327,"orbitVelocityKMS":29.78,"__v":1},{"satellites":[],"_id":"5b0f8c4315315be81de5fd02","name":"Mars","radiusKM":3389.5,"rotationVelocityKMH":868.22,"aphelionAU":1.666,"perihelionAU":1.382,"orbitVelocityKMS":24.007,"__v":0},{"satellites":[],"_id":"5b0f8c4315315be81de5fd03","name":"Jupiter","radiusKM":69911,"rotationVelocityKMH":45000,"aphelionAU":5.4588,"perihelionAU":4.9501,"orbitVelocityKMS":13.07,"__v":0},{"satellites":[],"_id":"5b0f8c4315315be81de5fd04","name":"Saturn","radiusKM":58232,"rotationVelocityKMH":35500,"aphelionAU":10.1238,"perihelionAU":9.0412,"orbitVelocityKMS":9.68,"__v":0},{"satellites":[],"_id":"5b0f8c4315315be81de5fd05","name":"Uranus","radiusKM":25362,"rotationVelocityKMH":9320,"aphelionAU":20.11,"perihelionAU":18.33,"orbitVelocityKMS":6.8,"__v":0},{"satellites":[],"_id":"5b0f8c4315315be81de5fd06","name":"Neptune","radiusKM":24622,"rotationVelocityKMH":9650,"aphelionAU":30.33,"perihelionAU":29.81,"orbitVelocityKMS":5.43,"__v":0}],"name":"alpha","star":{"_id":"5b0f8c4315315be81de5fcfe","name":"Sol","radiusKM":695700,"rotationVelocityKMH":7189,"__v":0},"_id":"5b0f8ceeda4a86e83cbf6274"}],"_id":"5b0f8ceeda4a86e83cbf6275","name":"Solar System","__v":0}];
 
 				const orbits = data[0].hierarchies[0].planets.map((orbit) => {
-					return (orbit.aphelionAU + orbit.perihelionAU) /2
+					return (((orbit.aphelionAU + orbit.perihelionAU) /2) * 10)
 				});
 				
 				console.log(orbits);
 				
-				const starfoo = data[0].hierarchies[0].star.radiusKM / 10000;
+				const starfoo = data[0].hierarchies[0].star.radiusKM / 100000;
+				
+				console.log(`starfoo ${starfoo}`);
 
 				const orbitsScaled = d3.scaleLinear()
 								.domain([d3.min(orbits), d3.max(orbits)])
 								.range([starfoo, 100]);
 								
-				console.log(orbitsScaled);
+				//console.log(orbitsScaled);
 								
 	const system = d3.select('#galaxy').selectAll('div')
 	.data(data).enter()
@@ -87,22 +89,36 @@ const d3System = function(){
 		let AU = 1495; //149597870.7
 		let scale = 100;
 		
-		console.log(parent);
+		//console.log(parent);
 		
-		const star = parent.hasOwnProperty('star') ? parent.star.radiusKM / 10000 : 1
+		const star = parent.hasOwnProperty('star') ? parent.star.radiusKM / 100000 : 1
 		
 		const a = d.hasOwnProperty('aphelionAU') ? d.aphelionAU : d.apoapsisAU;
 		const p = d.hasOwnProperty('perihelionAU') ? d.perihelionAU : d.periapsisAU;
 		
-		//let calc = Math.round((((a + p / 2) * AU) / scale) + star);
-		let calc = Math.round((a + p) / 2);
+		let calc = Math.round((((a + p / 2) * AU) / scale) + star);
+		//let calc = (((a + p) / 2) * 10);
+		//let calc = Math.round((a + p) / 2);
 		
-		let foo = orbitsScaled(calc);
 		
+		let foo = Math.round(orbitsScaled(calc));
+		
+		console.log(`calc = ${calc}`);
+		console.log(`foo = ${foo}`);
+		
+		return {
+			'width': `${calc}${unit}`,
+			'height': `${calc}${unit}`,
+		};
+		
+/*
 		return {
 			'width': `${foo}${unit}`,
 			'height': `${foo}${unit}`,
 		};
+*/
+		
+		
 	}
 
 	
@@ -111,7 +127,7 @@ const d3System = function(){
 		let scale = type === 'star' ? 10000 : 1000;
 		let calc = Math.round((d.radiusKM) / scale);
 		
-		console.log(type);
+		//console.log(type);
 		
 		let mass = {
 			'width': function(d) { return (`${calc}${unit}`); },

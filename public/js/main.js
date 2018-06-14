@@ -18,50 +18,90 @@ const d3System = function(){
 	const orbits = data[0].hierarchies[0].planets.map((orbit) => {
 		return (((orbit.aphelionAU + orbit.perihelionAU) /2) * 10)
 	});
-	
-	console.log(orbits);
-	
-	let starfoo = data[0].hierarchies[0].star.radiusKM / config.ids.starScale.value;
-	
-	console.log(`starfoo ${starfoo}`);
 
+	// THIS HAS TO CHANGE
+	let starfoo = data[0].hierarchies[0].star.radiusKM / config.ids.starScale.value;
+
+	// Scale
 	const orbitsScaled = d3.scaleLinear()
-					.domain([0, d3.max(orbits)])
-					.range([starfoo, 90]);
-					
-	//console.log(orbitsScaled);
-				
+		.domain([0, d3.max(orbits)])
+		.range([starfoo, 90]);
+
+
+	// Main Render
 	function _render(data) {
-		const system = config.d3s.galaxy.selectAll('div')
-		.data(data).enter()
-			.append('div').attr('class', 'system')
-			.attr('id', function(d) { return d.name.replace(' ','-').toLowerCase(); })
-	
-	console.log('system done');
-	
-		// ! Hierarchy
-		const hierarchy = system.selectAll('.system')
-			.data(function(d) { return d.hierarchies }).enter()
-				.append('div').attr('class','hierarchy')
-	
-	console.log('hierarchy done');
-	
-		// ! Star
-		const star = hierarchy.selectAll('.star')
-			.data(function(d) { return [d.star] }).enter()
+
+
+		// ! Render Systems
+		// ----------------
+		
+		// data join
+		let system = config.d3s.galaxy.selectAll('.system')
+			.data(data);
+		
+		// remove old systems
+		system.exit().remove();
+
+		// add and update new systems
+		system = system.enter() // enter add div
 				.append('div')
-					.attrs({
-						'class': 'star',
-						'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
-					})
-					.styles(function(d) { return _mass(d, type = 'star'); })
+			.merge(system) // enter and update
+				.attr('class', 'system')
+				.attr('id', function(d) { return d.name.replace(' ','-').toLowerCase(); })
+
+
+		// ! Render Hierarchies
+		// --------------------
 	
-	console.log('star done');
-	
-		// ! Planets
-		const planets = hierarchy.selectAll('.hierarchy')
-			.data(function(d) { return d.planets }).enter()
+		// data join
+		let hierarchy = system.selectAll('.system')
+			.data(function(d) { return d.hierarchies })
+
+		// remove old hierarchies
+		hierarchy.exit().remove();
+
+		// add and update new hierarchies
+		hierarchy = hierarchy.enter()
 				.append('div')
+			.merge(hierarchy)
+				.attr('class','hierarchy')
+
+
+		// ! Render Stars
+		// --------------
+
+		// data join
+		let star = hierarchy.selectAll('.star')
+			.data(function(d) { return [d.star] })
+			
+		// remove old stars
+		star.exit().remove();
+		
+		// add and update new stars
+		star = star.enter()
+				.append('div')
+			.merge(star)
+				.attrs({
+					'class': 'star',
+					'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
+				})
+				.styles(function(d) { return _mass(d, type = 'star'); })
+
+
+		// ! Render Planets
+		// ----------------
+
+		// data join
+		let planets = hierarchy.selectAll('.hierarchy')
+			.data(function(d) { return d.planets })
+		
+		// remove old planets
+		planets.exit().remove();
+			
+		// add and update new planets
+		planets = planets.enter()
+				.append('div')
+			.merge(planets)
 					.attrs({
 						'class': 'orbit',
 						'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
@@ -180,7 +220,7 @@ const d3System = function(){
 	}
 	
 	config.ids.starScale.onchange = () => {
-		console.log(config.ids.star.value);
+		console.log(config.ids.starScale.value);
 		starfoo = data[0].hierarchies[0].star.radiusKM / config.ids.starScale.value;
 		console.log(starfoo);
 		//_render(data);

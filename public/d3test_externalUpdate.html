@@ -59,34 +59,20 @@
 
 			function interp(d, i, nodes) {
 				//console.log(d, i, increment.value, data2[0][i]);
-				console.log(d, data2[0][i]);
-				console.log(lerp(increment.value, d, data2[0][i]))
-				console.log(xScale(lerp(increment.value, d, data2[0][i])));
+				//console.log(d, data2[0][i]);
+				//console.log(lerp(increment.value, d, data2[0][i]))
+				//console.log(xScale(lerp(increment.value, d, data2[0][i])));
+				const unit = '%';
+				const lerped = xScale(lerp(increment.value, d, Math.max(...data[0])/data[0].length));
 
-				const styles = {
-					'width': function(d) { return xScale(lerp(increment.value, d, Math.max(...data[0])/data[0].length))+'%'; },
+				return {
+					'width': `${lerped}${unit}`,
 				};
-				
-				return styles;
 				
 			}
 			
 			updateButton.addEventListener('click', function() {
-				
-				// run update on click
-				update(
-					
-					data
-					
-					// create an array of random arrays with random numbers
-/*
-					Array.from({length: Math.ceil(Math.random() * 5)}, function() {
-						return Array.from({length: Math.ceil(Math.random() * 5)}, function() {
-							return Math.ceil(Math.random() * 5);
-						});
-					})
-*/
-				);
+				update(data);
 			});
 			
 			increment.addEventListener('change', function() {

@@ -56,6 +56,20 @@
 				.domain([0, d3.max(data[0])])
 				.range([0, 100]);
 
+
+			function interp(d, i, nodes) {
+				//console.log(d, i, increment.value, data2[0][i]);
+				console.log(d, data2[0][i]);
+				console.log(lerp(increment.value, d, data2[0][i]))
+				console.log(xScale(lerp(increment.value, d, data2[0][i])));
+
+				const styles = {
+					'width': function(d) { return xScale(lerp(increment.value, d, Math.max(...data[0])/data[0].length))+'%'; },
+				};
+				
+				return styles;
+				
+			}
 			
 			updateButton.addEventListener('click', function() {
 				
@@ -97,41 +111,10 @@
 				
 				inner
 					//.style('width', function(d) { console.log(d); return ((10*d)*increment.value)+'px'; })
-					.styles(function(d, i, nodes) {
-						//console.log(d, i, increment.value, data2[0][i]);
-						console.log(d, data2[0][i]);
-						console.log(lerp(increment.value, d, data2[0][i]))
-						console.log(xScale(lerp(increment.value, d, data2[0][i])));
-						//console.log(typeof xScale);
-						//console.log(xScale(4));
-						
-
-						
-						
-						//const lerpCalc = lerp(increment.value, d, data2[0][i]);
-						//const scaledLerp = xScale(lerpCalc);
-						
-						//console.log(scaledLerp);
-						
-/*
-						const styles = {
-							'width': function(d) { return ((10*d)*increment.value)+'px'; },
-							'height': function(d) { return ((10*d)*increment.value)+'px'; },
-						};
-*/
-						
-/*
-						const styles = {
-							'width': function(d) { return xScale(lerp(increment.value, d, data2[0][i]))+'%'; },
-						};
-*/
-						const styles = {
-							'width': function(d) { return xScale(lerp(increment.value, d, Math.max(...data[0])/data[0].length))+'%'; },
-						};
-						
-						return styles;
-						
-					})
+					.transition()
+					.duration(1000)
+					.styles(interp)
+					
 
 				inner.exit().remove();
 

@@ -31,7 +31,7 @@
 	
 	<body>
 		<button id="update">update</button>
-		<input id="increment" type="number" value="1" step="1" />
+		<input id="increment" type="number" value="1" step="0.1" max="2" />
 		<div id="anchor"></div>
 		<script>
 	
@@ -44,12 +44,17 @@
 			function lerp(n, x0, x1) {
 				// returns a position: x that is n percent between y0 and y1
 				// As orbits are x only, y values are fixed to 0(start) - 1(end)
-				const y0 = 0;
-				const y1 = 1;
+				const y0 = 1;
+				const y1 = 2;
 				const x = ((y1 - n)*x0 + (n - y0)*x1) / (y1 - y0);
 				
 				return x;
 			}
+			
+			// Scale
+			let xScale = d3.scaleLinear()
+				.domain([0, d3.max(data[0])])
+				.range([0, 100]);
 
 			
 			updateButton.addEventListener('click', function() {
@@ -93,12 +98,38 @@
 				inner
 					//.style('width', function(d) { console.log(d); return ((10*d)*increment.value)+'px'; })
 					.styles(function(d, i, nodes) {
-						console.log(d, i, increment.value, data2[0][i]);
+						//console.log(d, i, increment.value, data2[0][i]);
+						console.log(d, data2[0][i]);
+						console.log(lerp(increment.value, d, data2[0][i]))
+						console.log(xScale(lerp(increment.value, d, data2[0][i])));
+						//console.log(typeof xScale);
+						//console.log(xScale(4));
+						
+
+						
+						
+						//const lerpCalc = lerp(increment.value, d, data2[0][i]);
+						//const scaledLerp = xScale(lerpCalc);
+						
+						//console.log(scaledLerp);
+						
+/*
 						const styles = {
 							'width': function(d) { return ((10*d)*increment.value)+'px'; },
 							'height': function(d) { return ((10*d)*increment.value)+'px'; },
-					};
-					return styles;
+						};
+*/
+						
+/*
+						const styles = {
+							'width': function(d) { return xScale(lerp(increment.value, d, data2[0][i]))+'%'; },
+						};
+*/
+						const styles = {
+							'width': function(d) { return xScale(lerp(increment.value, d, Math.max(...data[0])/data[0].length))+'%'; },
+						};
+						
+						return styles;
 						
 					})
 

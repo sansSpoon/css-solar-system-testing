@@ -28,6 +28,9 @@ const d3System = function(){
 	
 	console.log(evenOrbits);
 
+
+
+
 	// THIS HAS TO CHANGE
 	let starfoo = data[0].hierarchies[0].star.radiusKM / config.ids.starScale.value;
 
@@ -102,7 +105,15 @@ const d3System = function(){
 
 		// data join
 		let planets = hierarchy.selectAll('.hierarchy')
-			.data(function(d) { return d.planets })
+			.data(function(d) { console.log(d.planets); return d.planets })
+			
+		planets
+			.styles(function(d) {
+				console.log('foo');
+				//const parent = d3.select(this.parentNode).datum();
+				console.log(config.ids.orbitScale.value);
+				return _orbit(d, parent);
+			})
 		
 		// remove old planets
 		planets.exit().remove();
@@ -115,13 +126,13 @@ const d3System = function(){
 						'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
 					})
 					.styles(function(d) {
-						const parent = d3.select(this.parentNode).datum();
+						//const parent = d3.select(this.parentNode).datum();
 						return _orbit(d, parent);
 					})
 				.append('div')
 					.attrs({'class': 'planet'})
 					.styles(function(d) { return _mass(d, type = 'planet'); })
-			.merge(planets)
+			//.merge(planets)
 
 
 
@@ -235,6 +246,15 @@ const d3System = function(){
 		starfoo = data[0].hierarchies[0].star.radiusKM / config.ids.starScale.value;
 		//console.log(starfoo);
 		//_render(data);
+		
+		
+	}
+	
+	config.ids.orbitScale.onchange = () => {
+		//console.log(config.ids.starScale.value);
+		//starfoo = data[0].hierarchies[0].star.radiusKM / config.ids.starScale.value;
+		//console.log(starfoo);
+		_render(data);
 		
 		
 	}

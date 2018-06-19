@@ -1,0 +1,131 @@
+	<!doctype html>
+	<html>
+	<head>
+	<meta charset="UTF-8">
+	<title>#</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="js/d3.min.js"></script>
+	<script src="js/d3-selection-multi.min.js"></script>
+	<style type="text/css">
+		.outer {
+			border: 1px solid black;
+			background-color: grey;
+			width: 100%;
+			height: 100px;
+			position: relative;
+			display: flex;
+		}
+		.inner {
+			display: flex;
+			justify-content: flex-start;
+			border: 1px solid blue;
+			background-color: cyan;
+			width: 50px;
+			height: 50px;
+			position: relative;
+		}
+		
+	</style>
+	
+	</head>
+	
+	<body>
+		<button id="update">update</button>
+		<input id="increment" type="number" value="1" step="1" />
+		<div id="anchor"></div>
+		<script>
+	
+			const updateButton = document.getElementById('update');
+			const increment = document.getElementById('increment');
+			const anchor = d3.select('#anchor');
+			const data = [[4, 7, 10, 15, 52, 96, 192, 301]];
+			const data2 = [[38, 75, 113, 151, 188, 226, 263, 301]];
+			
+			function lerp(n, x0, x1) {
+				// returns a position: x that is n percent between y0 and y1
+				// As orbits are x only, y values are fixed to 0(start) - 1(end)
+				const y0 = 0;
+				const y1 = 1;
+				const x = ((y1 - n)*x0 + (n - y0)*x1) / (y1 - y0);
+				
+				return x;
+			}
+
+			
+			updateButton.addEventListener('click', function() {
+				
+				// run update on click
+				update(
+					
+					data
+					
+					// create an array of random arrays with random numbers
+/*
+					Array.from({length: Math.ceil(Math.random() * 5)}, function() {
+						return Array.from({length: Math.ceil(Math.random() * 5)}, function() {
+							return Math.ceil(Math.random() * 5);
+						});
+					})
+*/
+				);
+			});
+			
+			increment.addEventListener('change', function() {
+				update(data);
+			});
+			
+			
+			function update(data) {
+				//console.clear();
+				//console.log(data);
+				
+				let outer = anchor.selectAll('.outer').data(data);
+
+				outer.exit().remove();
+
+				outer = outer.enter()
+						.append('div')
+				.merge(outer)
+						.attr("class", "outer");
+
+				let inner = outer.selectAll('.inner').data(function(d) { return d; });
+				
+				inner
+					//.style('width', function(d) { console.log(d); return ((10*d)*increment.value)+'px'; })
+					.styles(function(d, i, nodes) {
+						console.log(d, i, increment.value, data2[0][i]);
+						const styles = {
+							'width': function(d) { return ((10*d)*increment.value)+'px'; },
+							'height': function(d) { return ((10*d)*increment.value)+'px'; },
+					};
+					return styles;
+						
+					})
+
+				inner.exit().remove();
+
+				inner = inner.enter()
+						.append('div')
+						.style('width', function(d) { return ((10*d)*increment.value)+'px'; })
+				.merge(inner)
+						.attr("class", "inner")
+						//.text(function(d) { return d; });
+			}
+	
+		</script>
+	</body>
+	</html>
+
+
+<!--
+var text = g
+  .selectAll("text")
+  .data(data, key); // JOIN
+text.exit() // EXIT
+    .remove();
+text.enter() // ENTER
+  .append("text")
+    .text(function(d) { return d; })
+  .merge(text) // ENTER + UPDATE
+    .attr("x", function(d, i) { return i * 32; });
+    -->

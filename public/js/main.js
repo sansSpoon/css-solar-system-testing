@@ -138,7 +138,7 @@ const d3System = function(){
 	
 		// data join
 		let hierarchy = system.selectAll('.hierarchy')
-			.data(function(d) { return d.hierarchies })
+			.data(function(d) { return d.hierarchies });
 
 		// remove old hierarchies
 		hierarchy.exit().remove();
@@ -146,7 +146,7 @@ const d3System = function(){
 		// add and update new hierarchies
 		hierarchy = hierarchy.enter()
 				.append('div')
-				.attr('class','hierarchy')
+				.attr('class','hierarchy');
 
 
 		// ! Render Stars
@@ -174,7 +174,7 @@ const d3System = function(){
 		// ----------------
 
 		// data join
-		let planets = hierarchy.selectAll('.hierarchy')
+		let planets = hierarchy.selectAll('.orbit')
 			.data(function(d) { console.log(d.planets); return d.planets })
 			
 

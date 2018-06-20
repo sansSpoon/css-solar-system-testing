@@ -7,7 +7,7 @@
 	<script src="js/d3.min.js"></script>
 	<script src="js/d3-selection-multi.min.js"></script>
 	<style type="text/css">
-		.outer {
+		.h {
 			border: 1px solid black;
 			background-color: grey;
 			width: 100%;
@@ -15,7 +15,7 @@
 			position: relative;
 			display: flex;
 		}
-		.inner {
+		.p {
 			display: flex;
 			justify-content: flex-start;
 			border: 1px solid blue;
@@ -38,8 +38,29 @@
 			const updateButton = document.getElementById('update');
 			const increment = document.getElementById('increment');
 			const anchor = d3.select('#anchor');
-			const data = [[4, 7, 10, 15, 52, 96, 192, 301]];
-			const data2 = [[38, 75, 113, 151, 188, 226, 263, 301]];
+			const data =  [{
+											"h":[
+												{ 
+													"p": [{"r": 4}, {"r": 7}, {"r": 10}, {"r": 15}, {"r": 52}, {"r": 96}, {"r": 192}, {"r": 301}]}
+											]
+										}];
+										
+			//console.log(...data[0].h[0].p)
+			//console.log(Math.max.apply(Math,data[0].h[0].p.map(function(o) {return o.r;})))
+			
+			//console.log(Math.max(...data[0].h[0].p.map((o) => o.r)))
+
+			//const data2 = [[38, 75, 113, 151, 188, 226, 263, 301]];
+			
+			const max = Math.max(...data[0].h[0].p.map((o) => o.r));
+			console.log(max);
+			
+			const length = data[0].h[0].p.length;
+				console.log(length);
+				
+			// Scale
+			let xScale = d3.scaleLinear()
+				.domain([0, max]).range([0, 100]);
 			
 			function lerp(n, x0, x1) {
 				// returns a position: x that is n percent between y0 and y1
@@ -50,21 +71,11 @@
 				
 				return x;
 			}
-			
-			// Scale
-			let xScale = d3.scaleLinear()
-				.domain([0, d3.max(data[0])])
-				.range([0, 100]);
-
 
 			function interp(d, i, nodes) {
-				//console.log(d, i, increment.value, data2[0][i]);
-				//console.log(d, data2[0][i]);
-				//console.log(lerp(increment.value, d, data2[0][i]))
-				//console.log(xScale(lerp(increment.value, d, data2[0][i])));
 				const unit = '%';
-				const lerped = xScale(lerp(increment.value, d, Math.max(...data[0])/data[0].length));
-
+				const lerped = xScale(lerp(increment.value, d.r, max/length));
+				console.log(lerped);
 				return {
 					'width': `${lerped}${unit}`,
 				};
@@ -83,33 +94,43 @@
 			function update(data) {
 				//console.clear();
 				//console.log(data);
+				let s = anchor.selectAll('.s').data(data);
+				s.exit().remove();
+				s = s.enter()
+						 .append('div').attr('class', 's')
 				
-				let outer = anchor.selectAll('.outer').data(data);
+				let h = s.selectAll('.h').data(function(d) { return d.h });
+				h.exit().remove();
+				h = h.enter()
+						 .append('div').attr('class','h');
+						 
+				//console.log(h);
 
-				outer.exit().remove();
-
-				outer = outer.enter()
-						.append('div')
-				.merge(outer)
-						.attr("class", "outer");
-
-				let inner = outer.selectAll('.inner').data(function(d) { return d; });
+				let p = h.selectAll('.o').data(function(d) { return d.p; });
 				
-				inner
-					//.style('width', function(d) { console.log(d); return ((10*d)*increment.value)+'px'; })
+				//console.log(p)
+				
+
+				p
 					.transition()
 					.duration(1000)
-					.styles(interp)
+					.styles(interp);
 					
 
-				inner.exit().remove();
+				p.exit().remove();
 
-				inner = inner.enter()
+				p = p.enter()
 						.append('div')
-						.style('width', function(d) { return ((10*d)*increment.value)+'px'; })
-				.merge(inner)
-						.attr("class", "inner")
+						.attr("class", "p")
+						
+						.style('width', function(d) {
+							//console.log(d);
+							return ((10*d.r)*increment.value)+'px';
+						})
+						//.merge(inner)
+						
 						//.text(function(d) { return d; });
+
 			}
 	
 		</script>

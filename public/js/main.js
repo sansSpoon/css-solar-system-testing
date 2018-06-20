@@ -15,6 +15,16 @@ const d3System = function(){
 					},
 				},
 				data = [{"hierarchies":[{"planets":[{"satellites":[],"_id":"5b0f8c4315315be81de5fcff","name":"Mercury","radiusKM":2439.7,"rotationVelocityKMH":10.892,"aphelionAU":0.466697,"perihelionAU":0.307499,"orbitVelocityKMS":47.362,"__v":0},{"satellites":[],"_id":"5b0f8c4315315be81de5fd00","name":"Venus","radiusKM":6051.8,"rotationVelocityKMH":6.52,"aphelionAU":0.728213,"perihelionAU":0.71844,"orbitVelocityKMS":35.02,"__v":0},{"satellites":[{"name":"Moon","radiusKM":1738.1,"rotationVelocityKMH":16.6572,"apoapsisAU":0.00270993162,"periapsisAU":0.00242383129,"orbitVelocityKMS":1.022,"_id":"5b0f8e02da4a86e83cbf6276"}],"_id":"5b0f8c4315315be81de5fd01","name":"Earth","radiusKM":6371,"rotationVelocityKMH":1674.4,"aphelionAU":1.017,"perihelionAU":0.98327,"orbitVelocityKMS":29.78,"__v":1},{"satellites":[],"_id":"5b0f8c4315315be81de5fd02","name":"Mars","radiusKM":3389.5,"rotationVelocityKMH":868.22,"aphelionAU":1.666,"perihelionAU":1.382,"orbitVelocityKMS":24.007,"__v":0},{"satellites":[],"_id":"5b0f8c4315315be81de5fd03","name":"Jupiter","radiusKM":69911,"rotationVelocityKMH":45000,"aphelionAU":5.4588,"perihelionAU":4.9501,"orbitVelocityKMS":13.07,"__v":0},{"satellites":[],"_id":"5b0f8c4315315be81de5fd04","name":"Saturn","radiusKM":58232,"rotationVelocityKMH":35500,"aphelionAU":10.1238,"perihelionAU":9.0412,"orbitVelocityKMS":9.68,"__v":0},{"satellites":[],"_id":"5b0f8c4315315be81de5fd05","name":"Uranus","radiusKM":25362,"rotationVelocityKMH":9320,"aphelionAU":20.11,"perihelionAU":18.33,"orbitVelocityKMS":6.8,"__v":0},{"satellites":[],"_id":"5b0f8c4315315be81de5fd06","name":"Neptune","radiusKM":24622,"rotationVelocityKMH":9650,"aphelionAU":30.33,"perihelionAU":29.81,"orbitVelocityKMS":5.43,"__v":0}],"name":"alpha","star":{"_id":"5b0f8c4315315be81de5fcfe","name":"Sol","radiusKM":695700,"rotationVelocityKMH":7189,"__v":0},"_id":"5b0f8ceeda4a86e83cbf6274"}],"_id":"5b0f8ceeda4a86e83cbf6275","name":"Solar System","__v":0}];
+				
+	function lerp(n, x0, x1) {
+		// returns a position: x that is n percent between y0 and y1
+		// As orbits are x only, y values are fixed to 0(start) - 1(end)
+		const y0 = 1;
+		const y1 = 2;
+		const x = ((y1 - n)*x0 + (n - y0)*x1) / (y1 - y0);
+		
+		return x;
+	}
 
 	const orbits = data[0].hierarchies[0].planets.map((orbit) => {
 		return Math.round(((orbit.aphelionAU + orbit.perihelionAU) /2) * 10)
@@ -35,159 +45,31 @@ const d3System = function(){
 	let starfoo = data[0].hierarchies[0].star.radiusKM / config.ids.starScale.value;
 
 	// Scale
-	const orbitsScaled = d3.scaleLinear()
+	let orbitsScaled = d3.scaleLinear()
 		.domain([0, d3.max(orbits)])
 		.range([starfoo, 90]);
 
 
-	// Main Render
-	function _render(data) {
-
-
-		// ! Render Systems
-		// ----------------
-		
-		// data join
-		let system = config.d3s.galaxy.selectAll('.system')
-			.data(data);
-		
-		// remove old systems
-		system.exit().remove();
-
-		// add and update new systems
-		system = system.enter() // enter add div
-				.append('div')
-			.merge(system) // enter and update
-				.attr('class', 'system')
-				.attr('id', function(d) { return d.name.replace(' ','-').toLowerCase(); })
-
-
-		// ! Render Hierarchies
-		// --------------------
-	
-		// data join
-		let hierarchy = system.selectAll('.system')
-			.data(function(d) { return d.hierarchies })
-
-		// remove old hierarchies
-		hierarchy.exit().remove();
-
-		// add and update new hierarchies
-		hierarchy = hierarchy.enter()
-				.append('div')
-			.merge(hierarchy)
-				.attr('class','hierarchy')
-
-
-		// ! Render Stars
-		// --------------
-
-		// data join
-		let star = hierarchy.selectAll('.star')
-			.data(function(d) { return [d.star] })
-			
-		// remove old stars
-		star.exit().remove();
-		
-		// add and update new stars
-		star = star.enter()
-				.append('div')
-			.merge(star)
-				.attrs({
-					'class': 'star',
-					'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
-				})
-				.styles(function(d) { return _mass(d, type = 'star'); })
-
-
-		// ! Render Planets
-		// ----------------
-
-		// data join
-		let planets = hierarchy.selectAll('.hierarchy')
-			.data(function(d) { console.log(d.planets); return d.planets })
-			
-		planets
-			.styles(function(d) {
-				console.log('foo');
-				//const parent = d3.select(this.parentNode).datum();
-				console.log(config.ids.orbitScale.value);
-				return _orbit(d, parent);
-			})
-		
-		// remove old planets
-		planets.exit().remove();
-			
-		// add and update new planets
-		planets = planets.enter()
-				.append('div')
-					.attrs({
-						'class': 'orbit',
-						'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
-					})
-					.styles(function(d) {
-						//const parent = d3.select(this.parentNode).datum();
-						return _orbit(d, parent);
-					})
-				.append('div')
-					.attrs({'class': 'planet'})
-					.styles(function(d) { return _mass(d, type = 'planet'); })
-			//.merge(planets)
-
-
-
-
-		
-		// ! Satellites
-		const satellites = planets.selectAll('.planet')
-			.data(function(d) { return d.satellites }).enter()
-				.append('div')
-					.attrs({
-						'class': 'orbit',
-						'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
-					})
-					.styles(function(d) {
-						const parent = d3.select(this.parentNode).datum();
-						return _orbit(d, parent);
-					})
-				.append('div')
-					.attrs({'class': 'satellite'})
-					.styles(function(d) { return _mass(d, type = 'satellite'); })
-					//.text(function(d, i) { return d.name })
-					
-
-	
-	}
-
-
-
 	// ! Private methods
-	function _orbit(d, parent) {
-		let unit = '%';
-		//let AU = 1495; //149597870.7
-		//let scale = 100;
-		
-		//console.log(parent);
-		
-		//const star = parent.hasOwnProperty('star') ? parent.star.radiusKM / 100000 : 1
-		
+	function _orbit(d, i, nodes) {
+		console.log(i);
+		const unit = '%';
 		const a = d.hasOwnProperty('aphelionAU') ? d.aphelionAU : d.apoapsisAU;
 		const p = d.hasOwnProperty('perihelionAU') ? d.perihelionAU : d.periapsisAU;
+
+		const orbit = Math.round(((a + p) / 2) * 10); // *10 is just to have easier numbers to work with
+		console.log(orbit);
 		
-		//let calc = Math.round((((a + p / 2) * AU) / scale) + star);
-		//let calc = Math.round((a + p) / 2);
+		const evenOrbit = Math.round((Math.max(...orbits)/orbits.length) * (i + 1));
+		console.log(evenOrbit);
 		
-		let calc = (((a + p) / 2) * 10);
-		
-		
-		let foo = Math.round(orbitsScaled(calc));
-		
-		//console.log(`calc = ${calc}`);
-		//console.log(`foo = ${foo}`);
+		let scaledOrbit = Math.round(orbitsScaled(lerp(orbitScale.value, orbit, evenOrbit)));
+		console.log(scaledOrbit);
+
 		
 		return {
-			'width': `${foo}${unit}`,
-			'height': `${foo}${unit}`,
+			'width': `${scaledOrbit}${unit}`,
+			'height': `${scaledOrbit}${unit}`,
 		};
 		
 		
@@ -226,6 +108,123 @@ const d3System = function(){
 		
 		return mass;
 	}
+
+
+
+	// Main Render
+	function _render(data) {
+
+
+		// ! Render Systems
+		// ----------------
+		
+		// data join
+		let system = config.d3s.galaxy.selectAll('.system')
+			.data(data);
+		
+		// remove old systems
+		system.exit().remove();
+
+		// add and update new systems
+		system = system.enter() // enter add div
+				.append('div')
+			.merge(system) // enter and update
+				.attr('class', 'system')
+				.attr('id', function(d) { return d.name.replace(' ','-').toLowerCase(); })
+
+
+		// ! Render Hierarchies
+		// --------------------
+	
+		// data join
+		let hierarchy = system.selectAll('.hierarchy')
+			.data(function(d) { return d.hierarchies })
+
+		// remove old hierarchies
+		hierarchy.exit().remove();
+
+		// add and update new hierarchies
+		hierarchy = hierarchy.enter()
+				.append('div')
+				.attr('class','hierarchy')
+
+
+		// ! Render Stars
+		// --------------
+
+		// data join
+		let star = hierarchy.selectAll('.star')
+			.data(function(d) { return [d.star] })
+			
+		// remove old stars
+		star.exit().remove();
+		
+		// add and update new stars
+		star = star.enter()
+				.append('div')
+			.merge(star)
+				.attrs({
+					'class': 'star',
+					'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
+				})
+				.styles(function(d) { return _mass(d, type = 'star'); })
+
+
+		// ! Render Planets
+		// ----------------
+
+		// data join
+		let planets = hierarchy.selectAll('.hierarchy')
+			.data(function(d) { console.log(d.planets); return d.planets })
+			
+
+		planets
+			.transition()
+			.duration(1000)
+			.styles(_orbit)
+
+		
+		// remove old planets
+		planets.exit().remove();
+			
+		// add and update new planets
+		planets = planets.enter()
+				.append('div')
+					.attrs({
+						'class': 'orbit',
+						'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
+					})
+					.styles(_orbit)
+				.append('div')
+					.attrs({'class': 'planet'})
+					.styles(function(d) { return _mass(d, type = 'planet'); })
+			//.merge(planets)
+
+
+
+
+		
+		// ! Satellites
+		const satellites = planets.selectAll('.planet')
+			.data(function(d) { return d.satellites }).enter()
+				.append('div')
+					.attrs({
+						'class': 'orbit',
+						'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
+					})
+					.styles(function(d) {
+						const parent = d3.select(this.parentNode).datum();
+						return _orbit(d, parent);
+					})
+				.append('div')
+					.attrs({'class': 'satellite'})
+					.styles(function(d) { return _mass(d, type = 'satellite'); })
+					//.text(function(d, i) { return d.name })
+					
+
+	
+	}
+
 	
 /*
 	function _universeSize() {
@@ -250,14 +249,10 @@ const d3System = function(){
 		
 	}
 	
-	config.ids.orbitScale.onchange = () => {
-		//console.log(config.ids.starScale.value);
-		//starfoo = data[0].hierarchies[0].star.radiusKM / config.ids.starScale.value;
-		//console.log(starfoo);
+	config.ids.orbitScale.addEventListener('change', function() {
+		console.log('foo');
 		_render(data);
-		
-		
-	}
+	})
 
 	// ! Add functionality to the module's init()-ialising method
 	function init() {

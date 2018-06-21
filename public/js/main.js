@@ -51,8 +51,23 @@ const d3System = function(){
 		return Math.round((a + p) / 2 * s);
 	}
 
-	// Apply lerp to orbits
-	function _orbit(d, i, nodes) {
+	// Apply lerp to planet orbits
+	function _orbitPlanet(d, i, nodes) {
+		const unit = '%';
+		const orbit = _apsisAvg(d);
+		const evenOrbit = Math.round((planetMaxOrbit/planetCount) * (i + 1));
+		let scaledOrbit = Math.round(orbitsScaled(_lerp(orbitScale.value, orbit, evenOrbit)));
+		
+		console.log(`${orbit} - ${evenOrbit} - ${scaledOrbit} - ${d.name}`);
+		
+		return {
+			'width': `${scaledOrbit}${unit}`,
+			'height': `${scaledOrbit}${unit}`,
+		};
+	}
+
+	// Apply lerp to satellite orbits
+	function _orbitSatellite(d, i, nodes) {
 		const unit = '%';
 		const orbit = _apsisAvg(d);
 		const evenOrbit = Math.round((planetMaxOrbit/planetCount) * (i + 1));
@@ -172,7 +187,7 @@ const d3System = function(){
 		planets
 			.transition()
 			.duration(1000)
-			.styles(_orbit)
+			.styles(_orbitPlanet)
 
 		
 		// remove old planets
@@ -185,7 +200,7 @@ const d3System = function(){
 						'class': 'orbit',
 						'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
 					})
-					.styles(_orbit)
+					.styles(_orbitPlanet)
 				.append('div')
 					.attrs({'class': 'planet'})
 					.styles(function(d) { return _mass(d, type = 'planet'); })
@@ -201,7 +216,7 @@ const d3System = function(){
 						'class': 'orbit',
 						'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
 					})
-					.styles(_orbit)
+					//.styles(_orbitSatellite)
 				.append('div')
 					.attrs({'class': 'satellite'})
 					.styles(function(d) { return _mass(d, type = 'satellite'); })

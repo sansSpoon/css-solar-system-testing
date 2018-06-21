@@ -225,7 +225,7 @@ const d3System = function(){
 			.data(function(d) { return d.satellites }).enter()
 				.append('div')
 					.attrs({
-						'class': 'orbit',
+						'class': 'orbit-sat',
 						'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
 					})
 					//.styles(_orbitSatellite)

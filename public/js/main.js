@@ -1,3 +1,5 @@
+'use strict';
+
 const d3System = function(){
 
 	// Create the return module and its configuration
@@ -24,13 +26,18 @@ const d3System = function(){
 	const planetCount = data[0].hierarchies[0].planets.length;
 	console.log(planetCount);
 
-	// THIS HAS TO CHANGE
-	let starfoo = data[0].hierarchies[0].star.radiusKM / config.ids.starScale.value;
+	// Initial star size
+	let starScaled = data[0].hierarchies[0].star.radiusKM / 100000 * config.ids.starScale.value;
 
 	// Scale
 	let orbitsScaled = d3.scaleLinear()
 		.domain([0, planetMaxOrbit])
-		.range([0, 100]);
+		.range([starScaled, 90]);
+		
+	function _rescale() {
+		starScaled = data[0].hierarchies[0].star.radiusKM / 100000 * config.ids.starScale.value;
+		orbitsScaled.range([starScaled, 90]);
+	}
 
 	// returns a position: x that is n percent between y0 and y1
 	// As orbits are x only, y values are fixed to 0(start) - 1(end)
@@ -85,8 +92,8 @@ const d3System = function(){
 
 	// Scale Star
 	function _massStar(d) {
-		let unit = 'px';
-		let calc = Math.round((d.radiusKM) / config.ids.starScale.value);
+		let unit = '%';
+		let calc = Math.round(d.radiusKM / 100000 * config.ids.starScale.value);
 		
 		return {
 			'width': `${calc}${unit}`,
@@ -121,8 +128,6 @@ const d3System = function(){
 				'margin-right': `${-Math.round(calc/2)}${unit}`
 			};
 	}
-
-
 
 	// Main Render
 	function _render(data) {
@@ -245,6 +250,7 @@ const d3System = function(){
 	}
 	
 	config.ids.starScale.addEventListener('change', function() {
+		_rescale()
 		_render(data);
 	});
 	
@@ -258,7 +264,7 @@ const d3System = function(){
 	}
 
 	// ! Add init, and any other methods, to obj
-	module["init"] = init;
+	module['init'] = init;
 
 	// ! Return the the module as a Public API
 	return module;
@@ -268,7 +274,7 @@ const d3System = function(){
 
 // When the DOM is ready, run the module
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener('DOMContentLoaded', function() {
 	d3System.init();
 });
 

@@ -48,44 +48,25 @@ const d3System = function(){
 		const a = body.hasOwnProperty('aphelionAU') ? body.aphelionAU : body.apoapsisAU;
 		const p = body.hasOwnProperty('perihelionAU') ? body.perihelionAU : body.periapsisAU;
 
-		//return Math.round((a + p) / 2 * s);
 		return Math.round((a + p) / 2 * s);
 	}
 
 	// Apply lerp to orbits
 	function _orbit(d, i, nodes) {
-		//console.log(d.name);
 		const unit = '%';
-		//const a = d.hasOwnProperty('aphelionAU') ? d.aphelionAU : d.apoapsisAU;
-		//const p = d.hasOwnProperty('perihelionAU') ? d.perihelionAU : d.periapsisAU;
-
-		//const orbit = Math.round(((a + p) / 2) * 10); // *10 is just to have easier numbers to work with
-		
 		const orbit = _apsisAvg(d);
-		//console.log(orbit);
-		
-		//const evenOrbit = Math.round((planetMaxOrbit/planetCount) * (i + 1));
-		const evenOrbit = (planetMaxOrbit/planetCount) * (i + 1);
-		//console.log(evenOrbit);
-		
-		//let scaledOrbit = Math.round(orbitsScaled(_lerp(orbitScale.value, orbit, evenOrbit)));
-		let scaledOrbit = orbitsScaled(_lerp(orbitScale.value, orbit, evenOrbit));
-		//console.log(scaledOrbit);
-		
-		//console.log(`${('0000'+orbit).slice(-4)} - ${('0000'+evenOrbit).slice(-4)} - ${('0000'+scaledOrbit).slice(-4)} - ${d.name}`);
+		const evenOrbit = Math.round((planetMaxOrbit/planetCount) * (i + 1));
+		let scaledOrbit = Math.round(orbitsScaled(_lerp(orbitScale.value, orbit, evenOrbit)));
 		
 		console.log(`${orbit} - ${evenOrbit} - ${scaledOrbit} - ${d.name}`);
-
 		
 		return {
 			'width': `${scaledOrbit}${unit}`,
 			'height': `${scaledOrbit}${unit}`,
 		};
-		
-		
 	}
 
-	
+	// Scale Planets
 	function _mass(d, type) {
 		
 		//console.log(`starfoo in mass = ${starfoo}`)
@@ -123,7 +104,6 @@ const d3System = function(){
 
 	// Main Render
 	function _render(data) {
-
 
 		// ! Render Systems
 		// ----------------
@@ -188,7 +168,7 @@ const d3System = function(){
 		let planets = hierarchy.selectAll('.orbit')
 			.data(function(d) { return d.planets })
 			
-
+		// update planets
 		planets
 			.transition()
 			.duration(1000)
@@ -198,7 +178,7 @@ const d3System = function(){
 		// remove old planets
 		planets.exit().remove();
 			
-		// add and update new planets
+		// add new planets
 		planets = planets.enter()
 				.append('div')
 					.attrs({
@@ -206,17 +186,14 @@ const d3System = function(){
 						'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
 					})
 					.styles(_orbit)
-				//.append('div')
-				//	.attrs({'class': 'planet'})
-				//	.styles(function(d) { return _mass(d, type = 'planet'); })
+				.append('div')
+					.attrs({'class': 'planet'})
+					.styles(function(d) { return _mass(d, type = 'planet'); })
 			.merge(planets)
 
 
-
-
-		
-/*
-		// ! Satellites
+		// ! Render Satellites
+		// -------------------
 		const satellites = planets.selectAll('.planet')
 			.data(function(d) { return d.satellites }).enter()
 				.append('div')
@@ -224,27 +201,14 @@ const d3System = function(){
 						'class': 'orbit',
 						'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
 					})
-					.styles(function(d) {
-						const parent = d3.select(this.parentNode).datum();
-						return _orbit(d, parent);
-					})
+					.styles(_orbit)
 				.append('div')
 					.attrs({'class': 'satellite'})
 					.styles(function(d) { return _mass(d, type = 'satellite'); })
-					//.text(function(d, i) { return d.name })
-*/
-					
 
-	
 	}
 
-	
-/*
-	function _universeSize() {
-		console.log(config.ids.universe.offsetWidth)
-	}
-*/
-	
+
 	// ! Private Events
 	config.ids.toggle2d.onclick = () => {
 		config.d3s.galaxy.selectAll('.system').classed('animate-2d', function() { return !d3.select(this).classed('animate-2d') });
@@ -269,8 +233,6 @@ const d3System = function(){
 
 	// ! Add functionality to the module's init()-ialising method
 	function init() {
-		//_moduleMethod();
-		//_universeSize();
 		_render(data);
 	}
 

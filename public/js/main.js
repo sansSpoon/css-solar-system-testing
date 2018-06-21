@@ -30,8 +30,7 @@ const d3System = function(){
 	// Scale
 	let orbitsScaled = d3.scaleLinear()
 		.domain([0, planetMaxOrbit])
-		.range([starfoo, 90]);
-
+		.range([0, 100]);
 
 	// returns a position: x that is n percent between y0 and y1
 	// As orbits are x only, y values are fixed to 0(start) - 1(end)
@@ -49,12 +48,13 @@ const d3System = function(){
 		const a = body.hasOwnProperty('aphelionAU') ? body.aphelionAU : body.apoapsisAU;
 		const p = body.hasOwnProperty('perihelionAU') ? body.perihelionAU : body.periapsisAU;
 
+		//return Math.round((a + p) / 2 * s);
 		return Math.round((a + p) / 2 * s);
 	}
 
 	// Apply lerp to orbits
 	function _orbit(d, i, nodes) {
-		console.log(d, i);
+		//console.log(d.name);
 		const unit = '%';
 		//const a = d.hasOwnProperty('aphelionAU') ? d.aphelionAU : d.apoapsisAU;
 		//const p = d.hasOwnProperty('perihelionAU') ? d.perihelionAU : d.periapsisAU;
@@ -62,13 +62,19 @@ const d3System = function(){
 		//const orbit = Math.round(((a + p) / 2) * 10); // *10 is just to have easier numbers to work with
 		
 		const orbit = _apsisAvg(d);
-		console.log(orbit);
+		//console.log(orbit);
 		
-		const evenOrbit = Math.round((planetMaxOrbit/planetCount) * (i + 1));
-		console.log(evenOrbit);
+		//const evenOrbit = Math.round((planetMaxOrbit/planetCount) * (i + 1));
+		const evenOrbit = (planetMaxOrbit/planetCount) * (i + 1);
+		//console.log(evenOrbit);
 		
-		let scaledOrbit = Math.round(orbitsScaled(_lerp(orbitScale.value, orbit, evenOrbit)));
-		console.log(scaledOrbit);
+		//let scaledOrbit = Math.round(orbitsScaled(_lerp(orbitScale.value, orbit, evenOrbit)));
+		let scaledOrbit = orbitsScaled(_lerp(orbitScale.value, orbit, evenOrbit));
+		//console.log(scaledOrbit);
+		
+		//console.log(`${('0000'+orbit).slice(-4)} - ${('0000'+evenOrbit).slice(-4)} - ${('0000'+scaledOrbit).slice(-4)} - ${d.name}`);
+		
+		console.log(`${orbit} - ${evenOrbit} - ${scaledOrbit} - ${d.name}`);
 
 		
 		return {
@@ -180,7 +186,7 @@ const d3System = function(){
 
 		// data join
 		let planets = hierarchy.selectAll('.orbit')
-			.data(function(d) { console.log(d.planets); return d.planets })
+			.data(function(d) { return d.planets })
 			
 
 		planets
@@ -200,15 +206,16 @@ const d3System = function(){
 						'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
 					})
 					.styles(_orbit)
-				.append('div')
-					.attrs({'class': 'planet'})
-					.styles(function(d) { return _mass(d, type = 'planet'); })
-			//.merge(planets)
+				//.append('div')
+				//	.attrs({'class': 'planet'})
+				//	.styles(function(d) { return _mass(d, type = 'planet'); })
+			.merge(planets)
 
 
 
 
 		
+/*
 		// ! Satellites
 		const satellites = planets.selectAll('.planet')
 			.data(function(d) { return d.satellites }).enter()
@@ -225,6 +232,7 @@ const d3System = function(){
 					.attrs({'class': 'satellite'})
 					.styles(function(d) { return _mass(d, type = 'satellite'); })
 					//.text(function(d, i) { return d.name })
+*/
 					
 
 	

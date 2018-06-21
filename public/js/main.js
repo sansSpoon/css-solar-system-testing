@@ -7,7 +7,7 @@ const d3System = function(){
 						//universe: document.getElementById('universe'),
 						toggle2d: document.getElementById('toggle-2d'),
 						toggle3d: document.getElementById('toggle-3d'),
-						starScale: document.getElementById('starInput'),
+						starScale: document.getElementById('starScale'),
 						orbitScale: document.getElementById('orbitScale'),
 					},
 					d3s:{
@@ -56,7 +56,7 @@ const d3System = function(){
 		const unit = '%';
 		const orbit = _apsisAvg(d);
 		const evenOrbit = Math.round((planetMaxOrbit/planetCount) * (i + 1));
-		let scaledOrbit = Math.round(orbitsScaled(_lerp(orbitScale.value, orbit, evenOrbit)));
+		let scaledOrbit = Math.round(orbitsScaled(_lerp(config.ids.orbitScale.value, orbit, evenOrbit)));
 		
 		console.log(`${orbit} - ${evenOrbit} - ${scaledOrbit} - ${d.name}`);
 		
@@ -71,7 +71,7 @@ const d3System = function(){
 		const unit = '%';
 		const orbit = _apsisAvg(d);
 		const evenOrbit = Math.round((planetMaxOrbit/planetCount) * (i + 1));
-		let scaledOrbit = Math.round(orbitsScaled(_lerp(orbitScale.value, orbit, evenOrbit)));
+		let scaledOrbit = Math.round(orbitsScaled(_lerp(config.ids.orbitScale.value, orbit, evenOrbit)));
 		
 		console.log(`${orbit} - ${evenOrbit} - ${scaledOrbit} - ${d.name}`);
 		
@@ -81,8 +81,19 @@ const d3System = function(){
 		};
 	}
 
+	// Scale Star
+	function _massStar(d) {
+		let unit = 'px';
+		let calc = Math.round((d.radiusKM) / config.ids.starScale.value);
+		
+		return {
+			'width': `${calc}${unit}`,
+			'height': `${calc}${unit}`,
+		};
+	}
+	
 	// Scale Planets
-	function _mass(d, type) {
+	function _massPlanet(d, type) {
 		
 		//console.log(`starfoo in mass = ${starfoo}`)
 		
@@ -162,18 +173,23 @@ const d3System = function(){
 		let star = hierarchy.selectAll('.star')
 			.data(function(d) { return [d.star] })
 			
+		star
+			.transition()
+			.duration(1000)
+			.styles(_massStar)
+			
 		// remove old stars
 		star.exit().remove();
 		
 		// add and update new stars
 		star = star.enter()
 				.append('div')
-			.merge(star)
 				.attrs({
 					'class': 'star',
 					'id': function(d) { return d.name.replace(' ','-').toLowerCase(); },
 				})
-				.styles(function(d) { return _mass(d, type = 'star'); })
+				.styles(_massStar)
+			.merge(star)
 
 
 		// ! Render Planets
@@ -203,7 +219,7 @@ const d3System = function(){
 					.styles(_orbitPlanet)
 				.append('div')
 					.attrs({'class': 'planet'})
-					.styles(function(d) { return _mass(d, type = 'planet'); })
+					.styles(function(d) { return _massPlanet(d, type = 'planet'); })
 			.merge(planets)
 
 
@@ -219,7 +235,7 @@ const d3System = function(){
 					//.styles(_orbitSatellite)
 				.append('div')
 					.attrs({'class': 'satellite'})
-					.styles(function(d) { return _mass(d, type = 'satellite'); })
+					.styles(function(d) { return _massPlanet(d, type = 'satellite'); })
 
 	}
 
@@ -232,19 +248,13 @@ const d3System = function(){
 		config.d3s.galaxy.selectAll('.system').classed('animate-3d', function() { return !d3.select(this).classed('animate-3d') });
 	}
 	
-	config.ids.starScale.onchange = () => {
-		//console.log(config.ids.starScale.value);
-		starfoo = data[0].hierarchies[0].star.radiusKM / config.ids.starScale.value;
-		//console.log(starfoo);
-		//_render(data);
-		
-		
-	}
+	config.ids.starScale.addEventListener('change', function() {
+		_render(data);
+	});
 	
 	config.ids.orbitScale.addEventListener('change', function() {
-		console.log('foo');
 		_render(data);
-	})
+	});
 
 	// ! Add functionality to the module's init()-ialising method
 	function init() {

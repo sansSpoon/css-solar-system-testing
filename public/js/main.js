@@ -68,6 +68,8 @@ const d3System = function(){
 
 	// Apply lerp to satellite orbits
 	function _orbitSatellite(d, i, nodes) {
+		console.log('orbitSat');
+		console.log(d);
 		const unit = '%';
 		const orbit = _apsisAvg(d);
 		const evenOrbit = Math.round((planetMaxOrbit/planetCount) * (i + 1));
@@ -92,38 +94,32 @@ const d3System = function(){
 		};
 	}
 	
-	// Scale Planets
-	function _massPlanet(d, type) {
-		
-		//console.log(`starfoo in mass = ${starfoo}`)
+	// Scale Planet
+	function _massPlanet(d) {
 		
 		let unit = 'px';
-		let scale = type === 'star' ? 100000 : 1000;
+		let scale = 1000;
 		let calc = Math.round((d.radiusKM) / scale);
 		
-		//let foo = Math.round(orbitsScaled(calc));
-		
-		let mass = {};
-		//console.log(type);
-		
-		if(type === 'star') {
-			//console.log(`loggging ${starfoo}`);
-			mass = {
-				'width': function(d) { return (`${starfoo}%`); },
-				'height': function(d) { return (`${starfoo}%`); },
+		return {
+				'width': `${calc}${unit}`,
+				'height': `${calc}${unit}`,
+				'margin-right': `${-Math.round(calc/2)}${unit}`
 			};
-		} else {
-			mass = {
-				'width': function(d) { return (`${calc}${unit}`); },
-				'height': function(d) { return (`${calc}${unit}`); },
+	}
+	
+	// Scale Satellite
+	function _massSatellite(d) {
+		
+		let unit = 'px';
+		let scale = 1000;
+		let calc = Math.round((d.radiusKM) / scale);
+		
+		return {
+				'width': `${calc}${unit}`,
+				'height': `${calc}${unit}`,
+				'margin-right': `${-Math.round(calc/2)}${unit}`
 			};
-		}
-		
-		if(d.hasOwnProperty('orbitVelocityKMS')) {
-			mass['margin-right'] = function(d) { return (`${-Math.round(calc/2)}${unit}`); };
-		};
-		
-		return mass;
 	}
 
 
@@ -219,7 +215,7 @@ const d3System = function(){
 					.styles(_orbitPlanet)
 				.append('div')
 					.attrs({'class': 'planet'})
-					.styles(function(d) { return _massPlanet(d, type = 'planet'); })
+					.styles(_massPlanet)
 			.merge(planets)
 
 
@@ -235,7 +231,7 @@ const d3System = function(){
 					//.styles(_orbitSatellite)
 				.append('div')
 					.attrs({'class': 'satellite'})
-					.styles(function(d) { return _massPlanet(d, type = 'satellite'); })
+					.styles(_massSatellite);
 
 	}
 

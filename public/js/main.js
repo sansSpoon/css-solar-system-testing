@@ -11,6 +11,7 @@ const d3System = function(){
 						toggle3d: document.getElementById('toggle-3d'),
 						starScale: document.getElementById('starScale'),
 						orbitScale: document.getElementById('orbitScale'),
+						heliosphere: document.getElementById('heliosphere'), 
 					},
 					d3s:{
 						galaxy: d3.select('#galaxy'),
@@ -26,17 +27,13 @@ const d3System = function(){
 	const planetCount = data[0].hierarchies[0].planets.length;
 	console.log(planetCount);
 
-	// Initial star size
-	let starScaled = data[0].hierarchies[0].star.radiusKM / 100000 * config.ids.starScale.value;
-
 	// Scale
 	let orbitsScaled = d3.scaleLinear()
 		.domain([0, planetMaxOrbit])
-		.range([starScaled, 90]);
+		.range([data[0].hierarchies[0].star.radiusKM / 100000 * config.ids.starScale.value, config.ids.heliosphere.value]);
 		
 	function _rescale() {
-		starScaled = data[0].hierarchies[0].star.radiusKM / 100000 * config.ids.starScale.value;
-		orbitsScaled.range([starScaled, 90]);
+		orbitsScaled.range([data[0].hierarchies[0].star.radiusKM / 100000 * config.ids.starScale.value, config.ids.heliosphere.value]);
 	}
 
 	// returns a position: x that is n percent between y0 and y1
@@ -255,6 +252,11 @@ const d3System = function(){
 	});
 	
 	config.ids.orbitScale.addEventListener('change', function() {
+		_render(data);
+	});
+	
+	config.ids.heliosphere.addEventListener('change', function() {
+		_rescale()
 		_render(data);
 	});
 

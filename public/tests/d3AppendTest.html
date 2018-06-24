@@ -1,0 +1,202 @@
+	<!doctype html>
+	<html>
+	<head>
+	<meta charset="UTF-8">
+	<title>#</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://d3js.org/d3.v5.min.js"></script>
+	<script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
+	<style type="text/css">
+		.outer {
+			border: 1px solid black;
+			background-color: grey;
+			width: 100%;
+			height: 100px;
+			position: relative;
+			display: flex;
+		}
+		.inner {
+			display: flex;
+			justify-content: flex-start;
+			border: 1px solid blue;
+			background-color: cyan;
+			height: 50px;
+			position: relative;
+		}
+		.innerM {
+			display: flex;
+			border: 1px solid blue;
+			background-color: magenta;
+			height: 25px;
+			position: relative;
+		}
+		.sr {
+			display: flex;
+			background-color: yellow;
+			height: 12px;
+		}
+		.sm {
+			display: flex;
+			background-color: black;
+			height: 6px;
+		}
+		
+	</style>
+	
+	</head>
+	
+	<body>
+		<p>Inner: <input id="increment" type="number" value="1" step="1" max="5" /></p>
+		<p>InnerM: <input id="incrementM" type="number" value="1" step="1" max="5" /></p>
+		<p>SR: <input id="incrementSR" type="number" value="1" step="1" max="5" /></p>
+		<p>SM: <input id="incrementSM" type="number" value="1" step="1" max="5" /></p>
+		<div id="anchor"></div>
+		<script>
+			const increment = document.getElementById('increment');
+			const incrementM = document.getElementById('incrementM');
+			const incrementSR = document.getElementById('incrementSR');
+			const incrementSM = document.getElementById('incrementSM');
+			const anchor = d3.select('#anchor');
+			const data =	[
+				{
+					"outer": [
+						{
+							"inner": [
+								{ "n": "a",
+									"r": 40,
+									"m": 10,
+									"s": []
+								},
+								{ "n": "b",
+									"r": 70,
+									"m": 13,
+									"s": []
+								},
+								{ "n": "c",
+									"r": 10,
+									"m": 15,
+									"s": [
+										{ "n": "c.a",
+											"r": 20,
+											"m": 5
+										}
+									] },
+								{ "n": "d",
+									"r": 15,
+									"m": 9,
+									"s": []
+								},
+								{ "n": "e",
+									"r": 52,
+									"m": 20,
+									"s": []
+								},
+								{ "n": "f",
+									"r": 96,
+									"m": 30,
+									"s": [
+										{ "n": "f.a",
+											"r": 50,
+											"m": 10
+										}
+									] },
+								{ "n": "g",
+									"r": 192,
+									"m": 60,
+									"s": []
+								},
+								{ "n": "h",
+									"r": 301,
+									"m": 50,
+									"s": []
+								}
+							]
+						}
+					]
+				}
+			];
+			
+			increment.addEventListener('change', function() {
+				update(data);
+			});
+			
+			incrementM.addEventListener('change', function() {
+				update(data);
+			});
+			
+			incrementSR.addEventListener('change', function() {
+				update(data);
+			});
+			
+			incrementSM.addEventListener('change', function() {
+				update(data);
+			});
+			
+			
+			function update(data) {
+
+				// main data
+				let root = anchor.selectAll('.root').data(data);
+				root.exit().remove();
+				root = root.enter()
+							.append('div')
+								.attr('class', 'root')
+							.merge(root)
+				
+				//console.log(root);
+
+				// outer array
+				let outer = root.selectAll('.outer').data(function(d) { return d.outer });
+				outer.exit().remove();
+				outer = outer.enter()
+								.append('div')
+									.attr('class','outer')
+								.merge(outer);
+				
+				//console.log(outer);
+
+
+				// inner array
+				let inner = outer.selectAll('.inner').data(function(d) { return d.inner; }, function(d) { return d.n; });
+				
+				inner.exit().remove();
+
+				// UPDATE INNER
+				inner
+					.transition()
+					.duration(1000)
+					.style('width', function(d) { return d.r*increment.value+'px'; });
+
+
+
+				inner = inner.enter()
+						.append('div')
+							.attr("class", "inner")
+							.style('width', function(d) { return d.r+'px'; })
+				//		.append('div')
+				//			.attr("class", "innerM")
+				//			.style('width', function(d) { return d.m+'px'; })
+				//		.merge(inner);
+						
+						
+						
+						
+				let innerM = outer.selectAll('.innerM').data(function(d) { return d.inner; }, function(d) { return d.n; });
+				
+				innerM.exit().remove();
+				
+				innerM = innerM.enter()
+									.select('.inner')
+									.append('div')
+									.attr("class", "innerM")
+									.style('width', function(d) { return d.m+'px'; })
+									
+				
+			}
+			
+			//run once
+			update(data);
+	
+		</script>
+	</body>
+	</html>

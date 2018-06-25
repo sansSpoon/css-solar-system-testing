@@ -217,6 +217,7 @@ const d3System = function(){
 		return {
 			'width': `${scaledOrbit}${unit}`,
 			'height': `${scaledOrbit}${unit}`,
+			'animation-duration': `${d.orbitVelocityKMS}s`,
 		};
 	}
 	
@@ -230,7 +231,8 @@ const d3System = function(){
 		return {
 				'width': `${calc}${unit}`,
 				'height': `${calc}${unit}`,
-				'margin-right': `${-Math.round(calc/2)}${unit}`
+				'margin-right': `${-Math.round(calc/2)}${unit}`,
+				'animation-duration': `${d.orbitVelocityKMS}s`,
 			};
 	}
 

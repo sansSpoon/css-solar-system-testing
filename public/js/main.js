@@ -50,24 +50,6 @@ const d3System = function(){
           },
           {
             "satellites": [
-              {
-                "name": "Moon",
-                "radiusKM": 1738.1,
-                "rotationVelocityKMH": 16.6572,
-                "apoapsisAU": 0.00270993162,
-                "periapsisAU": 0.00242383129,
-                "orbitVelocityKMS": 1.022,
-                "_id": "5b0f8e02da4a86e83cbf6276"
-              },
-              {
-                "name": "Moon 2",
-                "radiusKM": 2300,
-                "rotationVelocityKMH": 16.6572,
-                "apoapsisAU": 0.05,
-                "periapsisAU": 0.05,
-                "orbitVelocityKMS": 2,
-                "_id": "5b0f8e02da4a86e83cbf6276"
-              }
             ],
             "_id": "5b0f8c4315315be81de5fd01",
             "name": "Earth",
@@ -114,7 +96,24 @@ const d3System = function(){
             "__v": 0
           },
           {
-            "satellites": [],
+            "satellites": [{
+                "name": "Moon",
+                "radiusKM": 1738.1,
+                "rotationVelocityKMH": 16.6572,
+                "apoapsisAU": 0.00270993162,
+                "periapsisAU": 0.00242383129,
+                "orbitVelocityKMS": 1.022,
+                "_id": "5b0f8e02da4a86e83cbf6276"
+              },
+              {
+                "name": "Moon 2",
+                "radiusKM": 2300,
+                "rotationVelocityKMH": 16.6572,
+                "apoapsisAU": 0.05,
+                "periapsisAU": 0.05,
+                "orbitVelocityKMS": 2,
+                "_id": "5b0f8e02da4a86e83cbf6276"
+              }],
             "_id": "5b0f8c4315315be81de5fd05",
             "name": "Uranus",
             "radiusKM": 25362,
@@ -240,7 +239,8 @@ const d3System = function(){
 
 	// Apply lerp to satellite orbits
 	function _orbitSatellite(d, i, nodes) {
-		const unit = '%';
+		const unit = 'px';
+		const planetMass = Math.round(d3.select(this.parentNode).datum().radiusKM / 1000 * config.ids.planetScale.value);
 		const orbit = _apsisAvg(d);
 		const orbitCount = d3.select(this.parentNode).datum().satellites.length;
 		const orbitMax = Math.max(...d3.select(this.parentNode).datum().satellites.map(_apsisAvg));
@@ -251,8 +251,10 @@ const d3System = function(){
 		//console.log(`${orbit} - ${orbitCount} - ${orbitMax} - ${d.name}`);
 		
 		return {
-			'width': `${scaledOrbit}${unit}`,
-			'height': `${scaledOrbit}${unit}`,
+			'width': `${scaledOrbit+planetMass}${unit}`,
+			'height': `${scaledOrbit+planetMass}${unit}`,
+			'left': `${-(scaledOrbit)/2}${unit}`,
+			'top': `${-(scaledOrbit)/2}${unit}`,
 		};
 	}
 	

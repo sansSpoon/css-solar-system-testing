@@ -59,7 +59,7 @@
 	
 }
 
-.orbit, orbit-sat {
+.orbit {
 	width: 60%;
 	height: 60%;
 	
@@ -74,6 +74,16 @@
 	background-color: brown;
 	
 	@extend %body;
+	display: block;
+	
+	transition: all 1s linear;
+}
+
+.orbit-sat {
+	width: 60%;
+	height: 60%;
+	
+	@extend %orbit;
 	
 	transition: all 1s linear;
 }

@@ -78,6 +78,10 @@
 										 {
 											 "r": 20,
 											 "m": 5
+										 },
+										 {
+											 "r": 6,
+											 "m": 4
 										 }
 									 ] },
 								 { "r": 15,
@@ -152,14 +156,14 @@
 					.transition()
 					.duration(1000)
 					.style('background-color','green')
-					.style('width', function(d) { return d.r*increment.value+'px'; });
+					.style('width', function(d) { return d.r*increment.value+'%'; });
 
 				inner.exit().remove();
 
 				inner = inner.enter()
 						.append('div')
 						.attr("class", "inner")
-						.style('width', function(d) { return d.r+'px'; })
+						.style('width', function(d) { return d.r+'%'; })
 					.merge(inner);
 
 
@@ -168,14 +172,14 @@
 				innerM
 					.transition()
 					.duration(1000)
-					.style('width', function(d) { return d.m*incrementM.value+'px'; });
+					.style('width', function(d) { return d.m*incrementM.value+'%'; });
 				
 				innerM.exit().remove();
 				
 				innerM = innerM.enter()
 						.append('div')
 						.attr("class", "innerM")
-						.style('width', function(d) { return d.m+'px'; })
+						.style('width', function(d) { return d.m+'%'; })
 					.merge(innerM)
 
 
@@ -184,14 +188,21 @@
 				sr
 					.transition()
 					.duration(1000)
-					.style('width', function(d) { return d.r*incrementSR.value+'px'; });
+					.style('width', function(d) { return d.r*incrementSR.value+'%'; });
 				
 				sr.exit().remove();
+				
+				
 				
 				sr = sr.enter()
 						.append('div')
 						.attr("class", "sr")
-						.style('width', function(d) { return d.r+'px'; })
+						.style('width', function(d) { 
+							
+							let foo = d3.select(this.parentNode).datum().s.length;
+							console.log(foo)
+							
+							console.log(d); return d.r+'%'; })
 					.merge(sr)
 
 
@@ -200,14 +211,14 @@
 				sm
 					.transition()
 					.duration(1000)
-					.style('width', function(d) { return d.m*incrementSM.value+'px'; });
+					.style('width', function(d) { return d.m*incrementSM.value+'%'; });
 				
 				sm.exit().remove();
 				
 				sm = sm.enter()
 					.append('div')
 					.attr("class", "sm")
-					.style('width', function(d) { return d.m+'px'; })
+					.style('width', function(d) { return d.m+'%'; })
 
 			}
 			

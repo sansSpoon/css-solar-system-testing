@@ -178,6 +178,12 @@ const d3System = function(){
 
 		return x;
 	}
+	
+	// Kepler's 3rd Law
+	function _kepler3(Rp) {
+		const Tp = 1.0 * Math.pow((Rp/1.0), 3/2);
+		return Tp;
+	}
 
 	// Average out a body's orbit and apply a scale
 	function _apsisAvg(body) {
@@ -210,6 +216,7 @@ const d3System = function(){
 		const unit = '%';
 		const orbit = _apsisAvg(d);
 		const evenOrbit = Math.round((planetMaxOrbit/planetCount) * (i + 1));
+		const orbitDuration = _kepler3(orbit);
 		let scaledOrbit = Math.round(orbitsScaled(_lerp(config.ids.orbitScale.value, orbit, evenOrbit)));
 		
 		console.log(`${orbit} - ${evenOrbit} - ${scaledOrbit} - ${d.name}`);
@@ -217,7 +224,7 @@ const d3System = function(){
 		return {
 			'width': `${scaledOrbit}${unit}`,
 			'height': `${scaledOrbit}${unit}`,
-			'animation-duration': `${d.orbitVelocityKMS}s`,
+			'animation-duration': `${parseFloat(orbitDuration/4).toFixed(2)}s`,
 		};
 	}
 	
@@ -228,11 +235,14 @@ const d3System = function(){
 		let scale = 1000;
 		let calc = Math.round((d.radiusKM) / scale * config.ids.planetScale.value);
 		
+		const orbit = _apsisAvg(d);
+		const orbitDuration = _kepler3(orbit);
+		
 		return {
 				'width': `${calc}${unit}`,
 				'height': `${calc}${unit}`,
 				'margin-right': `${-Math.round(calc/2)}${unit}`,
-				'animation-duration': `${d.orbitVelocityKMS}s`,
+				'animation-duration': `${parseFloat(orbitDuration/4).toFixed(2)}s`,
 			};
 	}
 

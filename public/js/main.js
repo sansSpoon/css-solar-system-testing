@@ -154,11 +154,9 @@ const d3System = function(){
 
 	// Max planetary orbit
 	const planetMaxOrbit = Math.max(...data[0].hierarchies[0].planets.map(_apsisAvg));
-	console.log(planetMaxOrbit);
 	
 	// Count of planets
 	const planetCount = data[0].hierarchies[0].planets.length;
-	console.log(planetCount);
 
 	// Scale Planet Orbits
 	let orbitsScaled = d3.scaleLinear()
@@ -219,7 +217,7 @@ const d3System = function(){
 		const orbitDuration = _kepler3(orbit);
 		let scaledOrbit = Math.round(orbitsScaled(_lerp(config.ids.orbitScale.value, orbit, evenOrbit)));
 		
-		console.log(`${orbit} - ${evenOrbit} - ${scaledOrbit} - ${d.name}`);
+		//console.log(`${orbit} - ${evenOrbit} - ${scaledOrbit} - ${d.name}`);
 		
 		return {
 			'width': `${scaledOrbit}${unit}`,
@@ -259,7 +257,7 @@ const d3System = function(){
 		const evenOrbit = Math.round((orbitMax/orbitCount) * (i + 1));
 		let scaledOrbit = Math.round(_lerp(config.ids.sOrbit.value, orbit, evenOrbit));
 		
-		console.log(`${orbit} - ${evenOrbit} - ${scaledOrbit} - ${d.name}`);
+		//console.log(`${orbit} - ${evenOrbit} - ${scaledOrbit} - ${d.name}`);
 		//console.log(`${orbit} - ${orbitCount} - ${orbitMax} - ${d.name}`);
 		
 		return {

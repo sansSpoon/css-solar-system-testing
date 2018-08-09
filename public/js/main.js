@@ -9,3 +9,4 @@ toggle2d.onclick = () => {
 toggle3d.onclick = () => {
 	system.classList.toggle('animate-3d');
 }
+

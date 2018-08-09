@@ -55,10 +55,10 @@
 		animation-fill-mode: both;
 	}
 	.planet {
-		animation: rotation-ccw infinite linear;
-		animation-duration: 10s;
-		animation-fill-mode: both;
+		animation: rotation-ccw 10s infinite linear both,
+		           shadow-orbit 10s infinite linear both;
 	}
+	
 	.orbit .orbit {
 		animation: orbit-sat-ccw infinite linear;
 		animation-duration: 2s;

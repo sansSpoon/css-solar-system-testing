@@ -7,11 +7,11 @@
 
 #earth {
 	&.orbit {
-		width: 200px;
-		height: 200px;
+		width: 400px;
+		height: 400px;
 	}
 	.planet {
-		$diameter: 30px;
+		$diameter: 120px;
 		width: $diameter;
 		height: $diameter;
 		margin-right: -$diameter/2;

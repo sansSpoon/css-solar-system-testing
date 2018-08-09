@@ -56,7 +56,7 @@
 	}
 	.planet {
 		animation: rotation-ccw 10s infinite linear both,
-		           shadow-orbit 10s infinite linear both;
+		           shadow-orbit 10s infinite linear;
 	}
 	
 	.orbit .orbit {
